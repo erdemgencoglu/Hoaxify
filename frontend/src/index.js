@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SignUp from './Components/SignUp'
-
+import SignUp from './Pages/SignUp'
+import './bootsrap-override.scss'
 ReactDOM.render(
   <React.StrictMode>
     <SignUp />
