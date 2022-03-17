@@ -8,13 +8,17 @@ class SignUp extends Component {
         displayName: null,
         password: null,
         passwordRepeat: null,
-        pendingApiCall: false
+        pendingApiCall: false,
+        errors: {}
     };
 
     onChange = event => {
         const { name, value } = event.target;
+        const errors = { ...this.state.errors }
+        errors[name] = undefined
         this.setState({
-            [name]: value
+            [name]: value,
+            errors
         });
     }
 
@@ -34,6 +38,9 @@ class SignUp extends Component {
             const resp = await signUp(body)
             this.setState({ pendingApiCall: false })
         } catch (error) {
+            if (error.response.data.validationErrors) {
+                this.setState({ errors: error.response.data.validationErrors })
+            }
             this.setState({ pendingApiCall: false })
         }
         /*//istek
@@ -48,7 +55,8 @@ class SignUp extends Component {
     }
 
     render() {
-        const { pendingApiCall } = this.state
+        const { pendingApiCall, errors } = this.state
+        const { username } = errors;
         return (
             <div className='container'>
                 <form>
@@ -56,7 +64,10 @@ class SignUp extends Component {
 
                     <div className="mb-3">
                         <label className="form-label">Username</label>
-                        <input className="form-control" name='username' onChange={this.onChange}></input>
+                        <input className={username ? "form-control is-invalid" : "form-control"} name='username' onChange={this.onChange}></input>
+                        <div className="invalid-feedback">
+                            {username}
+                        </div>
                     </div>
                     <div className="mb-3">
                         <label>Display Name</label>
