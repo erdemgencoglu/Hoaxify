@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 const Input = (props) => {
     const { label, error, name, onChange, type } = props
     const classname = error ? 'form-control is-invalid' : "form-control"

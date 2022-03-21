@@ -25,7 +25,7 @@ public class User {
     @Id
     @GeneratedValue
     private long id;
-    @NotNull//javax validation implement
+    @NotNull(message = "{hoaxify.constraint.username.NotNull.message}")//javax validation implement
     @Size(min = 4, max = 255)
     @UniqueUsername
     private String username;
@@ -34,6 +34,6 @@ public class User {
     private String displayName;
     @NotNull
     @Size(min = 8)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")//Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",message = "{hoaxify.constraint.password.Pattern.message}")//Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
     private String password;
 }
