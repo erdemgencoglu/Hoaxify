@@ -4,7 +4,9 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.auth;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tetamatrix.hoaxify.hoafbackend.ApiError;
+import com.tetamatrix.hoaxify.hoafbackend.Views;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserRepository;
 import java.util.Base64;
@@ -32,6 +34,7 @@ public class LoginController {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("api/1.0/auth")
+    @JsonView(Views.Base.class)
     ResponseEntity<?> handleAuthentication(@RequestHeader(name = "Authorization", required = false) String authorization) {
         if (authorization == null) {
             ApiError apiError = new ApiError(401, "Unauthorized", "api/1.0/auth");
