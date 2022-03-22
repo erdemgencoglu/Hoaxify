@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
-import { signUp, changeLanguage } from '../Api/ApiCalls';
+import { signUp } from '../Api/ApiCalls';
 import Input from '../Components/Input';
-import i18n from '../i18next';
 
 class SignUp extends Component {
 
@@ -67,11 +66,6 @@ class SignUp extends Component {
             })*/
 
     }
-    onChangeLanguage = (language) => {
-        const { i18n } = this.props;
-        i18n.changeLanguage(language)
-        changeLanguage(language)
-    }
     render() {
         const { pendingApiCall, errors } = this.state
         const { username, displayName, password, passwordRepeat } = errors;
@@ -92,8 +86,8 @@ class SignUp extends Component {
                         </button>
                     </div>
                     <div>
-                        <img src='https://cdn.countryflags.com/thumbs/united-states-of-america/flag-square-250.png' alt="en" width={27} style={{ cursor: 'pointer' }} onClick={() => this.onChangeLanguage('en')} />
-                        <img src='https://cdn.countryflags.com/thumbs/turkey/flag-square-250.png' alt="tr" width={27} style={{ marginLeft: 5, cursor: 'pointer' }} onClick={() => this.onChangeLanguage('tr')} />
+                        <img src='https://cdn.countryflags.com/thumbs/united-states-of-america/flag-square-250.png' alt="en" width={27} style={{ cursor: 'pointer', borderRadius: 15 }} onClick={() => this.onChangeLanguage('en')} />
+                        <img src='https://cdn.countryflags.com/thumbs/turkey/flag-square-250.png' alt="tr" width={27} style={{ marginLeft: 5, cursor: 'pointer', borderRadius: 15 }} onClick={() => this.onChangeLanguage('tr')} />
                     </div>
                 </form>
             </div>

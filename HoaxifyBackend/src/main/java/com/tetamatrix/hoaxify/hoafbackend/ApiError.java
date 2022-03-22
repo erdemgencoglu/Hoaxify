@@ -4,6 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
 import java.util.Map;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.Data;
  * @author pln226
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)//Jackson kütüphanesi null olmayanları dön 
 public class ApiError {
 
     private int status;
@@ -26,7 +28,5 @@ public class ApiError {
         this.message = message;
         this.path = path;
     }
-
-
 
 }

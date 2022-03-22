@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SignUp from './Pages/SignUp'
+import Login from './Pages/Login';
+import SignUp from './Pages/SignUp';
+import LanguageSelector from './Components/LanguageSelector';
 import './bootsrap-override.scss'
 ReactDOM.render(
-  <React.StrictMode>
-    <SignUp />
-  </React.StrictMode>,
+  <div>
+    <Login />
+    <LanguageSelector />
+  </div>
+  ,
   document.getElementById('root')
 );
 
