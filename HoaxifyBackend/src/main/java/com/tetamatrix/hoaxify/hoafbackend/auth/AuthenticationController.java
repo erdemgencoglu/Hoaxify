@@ -7,6 +7,7 @@ package com.tetamatrix.hoaxify.hoafbackend.auth;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.tetamatrix.hoaxify.hoafbackend.ApiError;
 import com.tetamatrix.hoaxify.hoafbackend.Views;
+import com.tetamatrix.hoaxify.hoafbackend.user.CurrentUser;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserRepository;
 import java.util.Base64;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,13 +40,7 @@ public class AuthenticationController {
 
     @PostMapping("api/1.0/auth")
     @JsonView(Views.Base.class)
-    ResponseEntity<?> handleAuthentication(@RequestHeader(name = "Authorization") String authorization) {
-
-        String base64encoded = authorization.split("Basic ")[1];//ZGFzZDphc2Rhc2Rhc2Q
-        String decoded = new String(Base64.getDecoder().decode(base64encoded));//user1:password
-        String[] parts = decoded.split(":");
-        String username = parts[0];
-        User inDb = userRepository.findByUsername(username);
-        return ResponseEntity.ok(inDb);
+    ResponseEntity<?> handleAuthentication(@CurrentUser User user) {
+        return ResponseEntity.ok(user);
     }
 }

@@ -28,7 +28,7 @@ public class UserAuthService implements UserDetailsService {
         if (inDb == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new HuserDetails(inDb);
+        return inDb;
     }
 
 }

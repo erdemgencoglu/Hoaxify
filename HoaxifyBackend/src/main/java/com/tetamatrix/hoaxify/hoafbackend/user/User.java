@@ -6,6 +6,7 @@ package com.tetamatrix.hoaxify.hoafbackend.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.tetamatrix.hoaxify.hoafbackend.Views;
+import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -22,7 +26,7 @@ import lombok.Data;
  */
 @Data //lombok extension sayesinde sadeleşmiş kod
 @Entity //Veritabanı obje bazlı kaydetme
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -42,4 +46,29 @@ public class User {
     private String password;
     @JsonView(Views.Base.class)
     private String image;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthorityUtils.createAuthorityList("Role_user");
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
