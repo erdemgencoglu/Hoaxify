@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication()
 public class HoaxifyApplication {
 
     public static void main(String[] args) {
@@ -20,19 +20,19 @@ public class HoaxifyApplication {
     }
 
     //Spring ayağa kalkmadan önce çalışacak method
-    @Bean
+    /*@Bean
     CommandLineRunner createInitialUsers(UserService userService) {
         {
             return new CommandLineRunner() {
                 @Override
                 public void run(String... args) throws Exception {
-                    /*User user = new User();
+                    User user = new User();
                     user.setUsername("user1");
                     user.setPassword("P4ssword");
                     user.setDisplayName("display1");
-                    userService.save(user);*/
+                    userService.save(user);
                 }
             };
         }
-    }
+    }*/
 }

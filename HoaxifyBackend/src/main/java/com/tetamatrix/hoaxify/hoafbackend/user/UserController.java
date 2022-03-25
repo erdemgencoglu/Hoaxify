@@ -42,7 +42,7 @@ public class UserController {
         return new GenericResponse("User Created");
     }
 
-    //MethodArgumenNotValid exception verdiğinde bu methodu çalıştır
+    /*//MethodArgumenNotValid exception verdiğinde bu methodu çalıştır
     //Dönen hatayı Api Errora dönüştürmek için
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -54,5 +54,5 @@ public class UserController {
         }
         error.setValidationErrors(validerr);
         return error;
-    }
+    }*/
 }
