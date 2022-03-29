@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { signUp } from '../Api/ApiCalls';
 import Input from '../Components/Input';
-
+import ButtonWithProgress from '../Components/ButtonWithProgress';
+//
 class SignUp extends Component {
 
     state = {
@@ -80,17 +81,19 @@ class SignUp extends Component {
                     <Input name="password" label={t('Password')} error={password} onChange={this.onChange} type="password"></Input>
                     <Input name="passwordRepeat" label={t('Password Repeat')} error={passwordRepeat} onChange={this.onChange} type="password"></Input>
                     <div className='text-center'>
-                        <button className='btn btn-primary' onClick={this.onClickSignUp} disabled={pendingApiCall || passwordRepeat}>
-                            {t('Sign up')}
-                            {pendingApiCall && <span class="spinner-border spinner-border-sm" ></span>}
-                        </button>
+                        <ButtonWithProgress
+                            onClick={this.onClickSignUp}
+                            disabled={pendingApiCall || passwordRepeat !== undefined}
+                            pendingApiCall={pendingApiCall}
+                            text={t('Sign up')}>
+                        </ButtonWithProgress>
                     </div>
                     <div>
                         <img src='https://cdn.countryflags.com/thumbs/united-states-of-america/flag-square-250.png' alt="en" width={27} style={{ cursor: 'pointer', borderRadius: 15 }} onClick={() => this.onChangeLanguage('en')} />
                         <img src='https://cdn.countryflags.com/thumbs/turkey/flag-square-250.png' alt="tr" width={27} style={{ marginLeft: 5, cursor: 'pointer', borderRadius: 15 }} onClick={() => this.onChangeLanguage('tr')} />
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
         );
     }
 }

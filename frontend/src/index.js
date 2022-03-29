@@ -8,7 +8,7 @@ import LanguageSelector from './Components/LanguageSelector';
 import './bootsrap-override.scss'
 ReactDOM.render(
   <div>
-    <Login />
+    <SignUp />
     <LanguageSelector />
   </div>
   ,
