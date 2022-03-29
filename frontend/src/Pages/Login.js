@@ -9,7 +9,6 @@ class Login extends Component {
     state = {
         username: null,
         password: null,
-        pendingApiCall: false,
         error: null
     }
 
@@ -37,25 +36,11 @@ class Login extends Component {
         }
     }
 
-    //Lifecycle page mount olduğunda
-    componentDidMount() {
-        //axios methodları ile yönetme
-        axios.interceptors.request.use((request) => {
-            this.setState({ pendingApiCall: true })
-            return request
-        });
-        axios.interceptors.response.use((response) => {
-            this.setState({ pendingApiCall: false })
-            return response
-        }, (error) => {
-            this.setState({ pendingApiCall: false })
-            throw error;
-        });
-    }
+
 
     render() {
-        const { pendingApiCall, error, username, password } = this.state
-        const { t } = this.props
+        const { error, username, password } = this.state
+        const { t, pendingApiCall } = this.props //propstan geliyor
         const buttonEnabled = username && password
         return (
             <div className='container'>

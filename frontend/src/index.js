@@ -2,15 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Login from './Pages/Login';
-import SignUp from './Pages/SignUp';
-import LanguageSelector from './Components/LanguageSelector';
+
 import './bootsrap-override.scss'
+import App from './container/App'
 ReactDOM.render(
-  <div>
-    <SignUp />
-    <LanguageSelector />
-  </div>
+  <App />
   ,
   document.getElementById('root')
 );

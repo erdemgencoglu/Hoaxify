@@ -11,7 +11,6 @@ class SignUp extends Component {
         displayName: null,
         password: null,
         passwordRepeat: null,
-        pendingApiCall: false,
         errors: {}
     };
 
@@ -46,16 +45,12 @@ class SignUp extends Component {
             displayName,
             password
         }
-        this.setState({ pendingApiCall: true })
-
         try {
             const resp = await signUp(body)
-            this.setState({ pendingApiCall: false })
         } catch (error) {
             if (error.response.data.validationErrors) {
                 this.setState({ errors: error.response.data.validationErrors })
             }
-            this.setState({ pendingApiCall: false })
         }
         /*//istek
         signUp(body)
@@ -68,9 +63,9 @@ class SignUp extends Component {
 
     }
     render() {
-        const { pendingApiCall, errors } = this.state
+        const { errors } = this.state
         const { username, displayName, password, passwordRepeat } = errors;
-        const { t } = this.props
+        const { t, pendingApiCall } = this.props
         return (
             <div className='container'>
                 <form>
@@ -87,10 +82,6 @@ class SignUp extends Component {
                             pendingApiCall={pendingApiCall}
                             text={t('Sign up')}>
                         </ButtonWithProgress>
-                    </div>
-                    <div>
-                        <img src='https://cdn.countryflags.com/thumbs/united-states-of-america/flag-square-250.png' alt="en" width={27} style={{ cursor: 'pointer', borderRadius: 15 }} onClick={() => this.onChangeLanguage('en')} />
-                        <img src='https://cdn.countryflags.com/thumbs/turkey/flag-square-250.png' alt="tr" width={27} style={{ marginLeft: 5, cursor: 'pointer', borderRadius: 15 }} onClick={() => this.onChangeLanguage('tr')} />
                     </div>
                 </form >
             </div >
