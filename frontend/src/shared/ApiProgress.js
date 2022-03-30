@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+function getDisplayName(WrappedComponent) {
+    return WrappedComponent.displayName || WrappedComponent.name || 'Component'
+}
+
+
 export function withApiProgress(WrappedComponent, apiPath) {
     return class extends Component {
+        static displayName = `ApiProgress(${getDisplayName(WrappedComponent)})`
+        //static displayName = "ApiProgress(" + getDisplayName(WrappedComponent) + ")"
         state = {
             pendingApiCall: false
         }
@@ -30,7 +37,8 @@ export function withApiProgress(WrappedComponent, apiPath) {
                 /*<div>
                     {React.cloneElement(this.props.children, { pendingApiCall: pendingApiCall })}
                 </div>*/
-                <WrappedComponent pendingApiCall={pendingApiCall} />
+                //tüm propertileri passlıyoruz kullandığımız yerlere
+                <WrappedComponent pendingApiCall={pendingApiCall} {...this.props} />
             );
         }
         updateApiCallFor = (url, inProgress) => {

@@ -89,6 +89,6 @@ class SignUp extends Component {
         );
     }
 }
-const SignUpTranslation = withTranslation()(SignUp)
-const SignUpWithApiProgress = withApiProgress(SignUpTranslation, '/api/1.0/users')
-export default SignUpWithApiProgress;
+const SignUpWithApiProgress = withApiProgress(SignUp, '/api/1.0/users')
+const SignUpTranslation = withTranslation()(SignUpWithApiProgress)
+export default SignUpTranslation;

@@ -5,7 +5,7 @@ const Input = (props) => {
     return (
         <div className="mb-3">
             <label className="form-label">{label}</label>
-            <input className={classname} name={name} onChange={onChange} type={type}></input>
+            <input className={classname} name={name} onChange={onChange} type={type} autoComplete="on"></input>
             <div className="invalid-feedback">
                 {props.error}
             </div>

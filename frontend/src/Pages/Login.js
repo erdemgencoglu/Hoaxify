@@ -4,6 +4,7 @@ import { login } from '../Api/ApiCalls';
 import Input from '../Components/Input';
 import axios from 'axios';
 import ButtonWithProgress from '../Components/ButtonWithProgress';
+import { withApiProgress } from '../shared/ApiProgress';
 //
 class Login extends Component {
     state = {
@@ -66,5 +67,5 @@ class Login extends Component {
     }
 }
 
-const LoginTranslation = withTranslation()(Login)
-export default LoginTranslation;
+const LoginWithTranslation = withTranslation()(Login)
+export default withApiProgress(LoginWithTranslation, '/api/1.0/auth') 
