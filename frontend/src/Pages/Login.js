@@ -5,6 +5,7 @@ import Input from '../Components/Input';
 import axios from 'axios';
 import ButtonWithProgress from '../Components/ButtonWithProgress';
 import { withApiProgress } from '../shared/ApiProgress';
+import { useNavigate } from 'react-router-dom'
 //
 class Login extends Component {
     state = {
@@ -12,7 +13,6 @@ class Login extends Component {
         password: null,
         error: null
     }
-
     onChange = event => {
         const { name, value } = event.target
         this.setState({
@@ -24,6 +24,7 @@ class Login extends Component {
 
     onClickLogin = async event => {
         event.preventDefault()
+
         const { username, password } = this.state;
         const body = {
             username: username,
@@ -32,8 +33,12 @@ class Login extends Component {
         this.setState({ error: null })
         try {
             const resp = await login(body)
+
         } catch (apiError) {
             this.setState({ error: apiError.response.data.message })
+            if (apiError.response.data.message === undefined) {
+                alert(apiError)
+            }
         }
     }
 

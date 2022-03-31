@@ -16,14 +16,14 @@ export function withApiProgress(WrappedComponent, apiPath) {
 
         componentDidMount() {
             //axios methodları ile yönetme
-            axios.interceptors.request.use((request) => {
+            //request
+            this.requestInterceptor = axios.interceptors.request.use((request) => {
+                console.log("runnig request interceptor", apiPath);
                 this.updateApiCallFor(request.url, true)
                 return request
             });
-            axios.interceptors.response.use((response) => {
-                /*if (response.config.url === this.props.path) {
-                    this.setState({ pendingApiCall: false })
-                }*/
+            //response
+            this.responseInterceptor = axios.interceptors.response.use((response) => {
                 this.updateApiCallFor(response.config.url, false)
                 return response
             }, (error) => {
@@ -31,6 +31,18 @@ export function withApiProgress(WrappedComponent, apiPath) {
                 throw error;
             });
         }
+
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.requestInterceptor)
+            axios.interceptors.response.eject(this.responseInterceptor)
+        }
+
+        updateApiCallFor = (url, inProgress) => {
+            if (url === apiPath) {
+                this.setState({ pendingApiCall: inProgress })
+            }
+        };
+
         render() {
             const { pendingApiCall } = this.state
             return (
@@ -41,10 +53,6 @@ export function withApiProgress(WrappedComponent, apiPath) {
                 <WrappedComponent pendingApiCall={pendingApiCall} {...this.props} />
             );
         }
-        updateApiCallFor = (url, inProgress) => {
-            if (url === apiPath) {
-                this.setState({ pendingApiCall: inProgress })
-            }
-        };
+
     }
 }
