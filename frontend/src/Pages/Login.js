@@ -30,7 +30,7 @@ class Login extends Component {
         this.setState({ error: null })
         try {
             const resp = await login(body)
-            this.props.navigation("/")
+            this.props.history.push("/")
         } catch (apiError) {
             this.setState({ error: apiError.response.data.message })
             if (apiError.response.data.message === undefined) {

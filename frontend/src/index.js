@@ -5,11 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import './bootsrap-override.scss'
 import App from './container/App'
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter } from 'react-router-dom'
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <App />
   ,
   document.getElementById('root')
 );

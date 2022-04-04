@@ -1,11 +1,12 @@
 import React from 'react';
-
+import { withRouter } from 'react-router-dom'
+import ProfileCard from '../Components/ProfileCard'
 const UserPorfilePage = () => {
     return (
         <div className='container'>
-            User Page
+            <ProfileCard />
         </div>
     );
 };
 
-export default UserPorfilePage;
+export default withRouter(UserPorfilePage);
