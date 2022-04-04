@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { login } from '../Api/ApiCalls';
 import Input from '../Components/Input';
-import axios from 'axios';
 import ButtonWithProgress from '../Components/ButtonWithProgress';
 import { withApiProgress } from '../shared/ApiProgress';
-import { useNavigate } from 'react-router-dom'
 //
 class Login extends Component {
     state = {
@@ -19,7 +17,6 @@ class Login extends Component {
             [name]: value,
             error: null
         })
-
     }
 
     onClickLogin = async event => {
@@ -33,11 +30,10 @@ class Login extends Component {
         this.setState({ error: null })
         try {
             const resp = await login(body)
-
+            this.props.navigation("/")
         } catch (apiError) {
             this.setState({ error: apiError.response.data.message })
             if (apiError.response.data.message === undefined) {
-                alert(apiError)
             }
         }
     }
