@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import logo from "../assets/social.png";
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import { Authenticaton } from '../shared/AuthenticationContext'
 class Navbar extends Component {
-
+    static contextType = Authenticaton;
     render() {
-        const { t, isLoggedIn, username } = this.props
+        const { t } = this.props
+        //Authenticatin Provider value larına erişme denebilir
+        const { state, onLogOutSuccess } = this.context
+        const { isLoggedIn, username } = state
         let links = (
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
@@ -23,12 +27,11 @@ class Navbar extends Component {
                         <Link className="nav-link" to={`/user/${username}`}>  {username}</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/signup">  {t('Logout')}</Link>
+                        <Link className="nav-link" to="/" onClick={onLogOutSuccess}>  {t('Logout')}</Link>
                     </li>
                 </ul >
             )
         }
-
         return (
             <div className='shadow-sm bg-light mb-2'>
 

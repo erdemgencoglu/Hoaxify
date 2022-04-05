@@ -7,21 +7,14 @@ import HomePage from "../Pages/HomePage";
 import UserPorfilePage from "../Pages/UserPorfilePage";
 import PageNotFound from "../Pages/PageNotFound"
 import Navbar from "../Components/Navbar";
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { Authenticaton } from '../shared/AuthenticationContext'
 class App extends React.Component {
-  state = {
-    isLoggedIn: true,
-    username: 'user1'
-  }
-
-  onLoginSuccess = (username) => {
-    this.setState({
-      username,
-      isLoggedIn: true
-    })
-  }
+  static contextType = Authenticaton
   render() {
-    const { isLoggedIn, username } = this.state
+    const isLoggedIn = this.state.;
+    const username = undefined;
+    //const { isLoggedIn, username } = this.state
     return (
       /* BrowserRouter her sayfa değişiminde istek atıyor ve  Bunun yerine HashRouter Kullanırsak bu ortadan kalkıyor */
       <div>
@@ -29,9 +22,12 @@ class App extends React.Component {
           <Navbar />
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/login" component={Login} />
+            {!isLoggedIn && <Route path="/login" component={Login} />}
             <Route path="/signup" component={SignUp} />
-            <Route path="/user/:username" component={UserPorfilePage} />
+            <Route path="/user/:username" component={props => {
+              return <UserPorfilePage {...props} username={username} />
+            }} />
+            <Redirect to="/"></Redirect>
             <Route path="*" component={PageNotFound} />
           </Switch>
         </Router>

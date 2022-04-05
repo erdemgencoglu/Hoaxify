@@ -4,8 +4,10 @@ import { login } from '../Api/ApiCalls';
 import Input from '../Components/Input';
 import ButtonWithProgress from '../Components/ButtonWithProgress';
 import { withApiProgress } from '../shared/ApiProgress';
+import { Authenticaton } from '../shared/AuthenticationContext'
 //
 class Login extends Component {
+    static contextType = Authenticaton
     state = {
         username: null,
         password: null,
@@ -23,14 +25,21 @@ class Login extends Component {
         event.preventDefault()
 
         const { username, password } = this.state;
+        const { onLoginSuccess } = this.context;
+        const { push } = this.props.history;
         const body = {
             username: username,
             password: password
         }
         this.setState({ error: null })
         try {
-            const resp = await login(body)
-            this.props.history.push("/")
+            const response = await login(body)
+            push("/")
+            const authState = {
+                ...response.data,
+                password: password
+            }
+            onLoginSuccess(authState)
         } catch (apiError) {
             this.setState({ error: apiError.response.data.message })
             if (apiError.response.data.message === undefined) {

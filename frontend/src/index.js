@@ -5,9 +5,11 @@ import reportWebVitals from './reportWebVitals';
 import './bootsrap-override.scss'
 import App from './container/App'
 import 'react-toastify/dist/ReactToastify.css';
-
+import AuthenticationContext from './shared/AuthenticationContext'
 ReactDOM.render(
-  <App />
+  <AuthenticationContext>
+    <App />
+  </AuthenticationContext>
   ,
   document.getElementById('root')
 );
