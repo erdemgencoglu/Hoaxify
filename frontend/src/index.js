@@ -5,12 +5,16 @@ import reportWebVitals from './reportWebVitals';
 import './bootsrap-override.scss'
 import App from './container/App'
 import 'react-toastify/dist/ReactToastify.css';
-import AuthenticationContext from './shared/AuthenticationContext'
+import { Provider } from 'react-redux'
+import configureStore from './redux/configureStore';
+
+//
+const store = configureStore();
+
 ReactDOM.render(
-  <AuthenticationContext>
+  <Provider store={store}>
     <App />
-  </AuthenticationContext>
-  ,
+  </Provider>,
   document.getElementById('root')
 );
 

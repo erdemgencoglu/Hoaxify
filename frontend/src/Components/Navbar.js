@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import logo from "../assets/social.png";
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
-import { Authenticaton } from '../shared/AuthenticationContext'
+import { connect } from 'react-redux'
+import { logoutSuccess } from '../redux/AuthActions'
+
 class Navbar extends Component {
-    static contextType = Authenticaton;
+
     render() {
-        const { t } = this.props
-        //Authenticatin Provider value larına erişme denebilir
-        const { state, onLogOutSuccess } = this.context
-        const { isLoggedIn, username } = state
+        const { t, isLoggedIn, username, onLogoutSuccess } = this.props
+
         let links = (
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
@@ -27,7 +27,7 @@ class Navbar extends Component {
                         <Link className="nav-link" to={`/user/${username}`}>  {username}</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/" onClick={onLogOutSuccess}>  {t('Logout')}</Link>
+                        <Link className="nav-link" to="/" onClick={onLogoutSuccess}>  {t('Logout')}</Link>
                     </li>
                 </ul >
             )
@@ -47,5 +47,22 @@ class Navbar extends Component {
         );
     }
 }
+const TopBarWithTranslation = withTranslation()(Navbar)
+//store dediğimiz index.js de bulunan createStoredaki statetimiz aslında 
+const mapStateToProps = store => {
+    return {
+        isLoggedIn: store.isLoggedIn,
+        username: store.username
+    }
+}
 
-export default withTranslation()(Navbar);
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogoutSuccess: () => {
+            return dispatch(logoutSuccess())
+        }
+    }
+}
+
+//Reduxa connect olurken hangi parametreleri alsın demek
+export default connect(mapStateToProps, mapDispatchToProps)(TopBarWithTranslation);

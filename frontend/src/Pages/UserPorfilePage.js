@@ -4,7 +4,7 @@ import ProfileCard from '../Components/ProfileCard'
 const UserPorfilePage = (props) => {
     return (
         <div className='container'>
-            <ProfileCard username={props.username} />
+            <ProfileCard />
         </div>
     );
 };

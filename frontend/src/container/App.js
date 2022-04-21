@@ -8,13 +8,11 @@ import UserPorfilePage from "../Pages/UserPorfilePage";
 import PageNotFound from "../Pages/PageNotFound"
 import Navbar from "../Components/Navbar";
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
-import { Authenticaton } from '../shared/AuthenticationContext'
+import { connect } from "react-redux";
+
 class App extends React.Component {
-  static contextType = Authenticaton
   render() {
-    const isLoggedIn = this.state.;
-    const username = undefined;
-    //const { isLoggedIn, username } = this.state
+    const { isLoggedIn } = this.props;
     return (
       /* BrowserRouter her sayfa değişiminde istek atıyor ve  Bunun yerine HashRouter Kullanırsak bu ortadan kalkıyor */
       <div>
@@ -24,9 +22,7 @@ class App extends React.Component {
             <Route exact path="/" component={HomePage} />
             {!isLoggedIn && <Route path="/login" component={Login} />}
             <Route path="/signup" component={SignUp} />
-            <Route path="/user/:username" component={props => {
-              return <UserPorfilePage {...props} username={username} />
-            }} />
+            <Route path="/user/:username" component={UserPorfilePage} />
             <Redirect to="/"></Redirect>
             <Route path="*" component={PageNotFound} />
           </Switch>
@@ -36,4 +32,11 @@ class App extends React.Component {
     );
   }
 }
-export default App;
+
+const mapStateToProps = store => {
+  return {
+    isLoggedIn: store.isLoggedIn,
+  }
+}
+
+export default connect(mapStateToProps)(App);
