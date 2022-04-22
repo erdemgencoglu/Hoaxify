@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
-import { login } from '../Api/ApiCalls';
 import Input from '../Components/Input';
 import ButtonWithProgress from '../Components/ButtonWithProgress';
 import { withApiProgress } from '../shared/ApiProgress';
 import { connect } from 'react-redux'
-import { loginSuccess } from '../redux/AuthActions';
+import { loginHandler } from '../redux/AuthActions';
 //
 class Login extends Component {
     // static contextType = Authenticaton
@@ -26,25 +25,21 @@ class Login extends Component {
         event.preventDefault()
 
         const { username, password } = this.state;
-        const { push } = this.props.history;
+        const { history, dispatch } = this.props;
+        const { push } = history;
         const body = {
             username: username,
             password: password
         }
         this.setState({ error: null })
         try {
-            const response = await login(body)
+            await dispatch(loginHandler(body))
             push("/")
-            const authState = {
-                ...response.data,
-                password: password
-            }
-            this.props.onLoginSuccess(authState)
-
         } catch (apiError) {
-            this.setState({ error: apiError.response.data.message })
-            if (apiError.response.data.message === undefined) {
-            }
+            console.log(apiError);
+            this.setState({
+                error: apiError.response.data.message
+            })
         }
     }
 
@@ -80,10 +75,4 @@ class Login extends Component {
 
 const LoginWithTranslation = withTranslation()(Login)
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onLoginSuccess: (authState) => { return dispatch(loginSuccess(authState)) }
-    }
-}
-
-export default connect(null, mapDispatchToProps)(withApiProgress(LoginWithTranslation, '/api/1.0/auth')) 
+export default connect()(withApiProgress(LoginWithTranslation, '/api/1.0/auth')) 

@@ -4,6 +4,8 @@ import { signUp } from '../Api/ApiCalls';
 import Input from '../Components/Input';
 import ButtonWithProgress from '../Components/ButtonWithProgress';
 import { withApiProgress } from '../shared/ApiProgress';
+import { connect } from 'react-redux';
+import { signUpHandler } from '../redux/AuthActions';
 //
 class SignUp extends Component {
 
@@ -40,6 +42,8 @@ class SignUp extends Component {
         //default submit kapatma
         event.preventDefault();
         //
+        const { history, dispatch } = this.props;
+        const { push } = history;
         const { username, displayName, password } = this.state;
         const body = {
             username,
@@ -47,7 +51,9 @@ class SignUp extends Component {
             password
         }
         try {
-            const resp = await signUp(body)
+            await dispatch(signUpHandler(body))
+            push("/")
+            /////
         } catch (error) {
             if (error.response.data.validationErrors) {
                 this.setState({ errors: error.response.data.validationErrors })
@@ -90,5 +96,6 @@ class SignUp extends Component {
     }
 }
 const SignUpWithApiProgress = withApiProgress(SignUp, '/api/1.0/users')
-const SignUpTranslation = withTranslation()(SignUpWithApiProgress)
-export default SignUpTranslation;
+const SignUpWithApiProgressAuthRequest = withApiProgress(SignUpWithApiProgress, '/api/1.0/auth')
+const SignUpTranslation = withTranslation()(SignUpWithApiProgressAuthRequest)
+export default connect()(SignUpTranslation);

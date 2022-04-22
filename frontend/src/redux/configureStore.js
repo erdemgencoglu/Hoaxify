@@ -1,7 +1,7 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import authReducer from './AuthReducer';
 import SecureLS from 'secure-ls'
-
+import thunk from 'redux-thunk'
 const secureLs = new SecureLS();
 
 const getStateFromStorage = () => {
@@ -27,8 +27,11 @@ const updateStateInStorage = (newState) => {
 }
 
 const configureStore = () => {
-    //
-    const store = createStore(authReducer, getStateFromStorage(), window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : noop => noop);
+    //react dev tools için
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    //reducer,başlangıç state değeri,chrome için ayar
+    const store = createStore(authReducer, getStateFromStorage(), composeEnhancers(applyMiddleware(thunk)));
+
     //her değişim olduğunda bu fonksiyon çağrılmış olucak
     store.subscribe(() => {
         updateStateInStorage(store.getState())
