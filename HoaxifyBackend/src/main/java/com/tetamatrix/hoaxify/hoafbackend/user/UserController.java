@@ -4,23 +4,19 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
-import com.tetamatrix.hoaxify.hoafbackend.ApiError;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
-import java.util.HashMap;
-import java.util.Map;
+import com.tetamatrix.hoaxify.hoafbackend.Views;
+import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -42,17 +38,15 @@ public class UserController {
         return new GenericResponse("User Created");
     }
 
-    /*//MethodArgumenNotValid exception verdiğinde bu methodu çalıştır
-    //Dönen hatayı Api Errora dönüştürmek için
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError HandleValidationException(MethodArgumentNotValidException exception) {
-        ApiError error = new ApiError(400, "Validation Error", "/api/1.0/users");
-        Map<String, String> validerr = new HashMap<>();
-        for (FieldError fielderror : exception.getBindingResult().getFieldErrors()) {
-            validerr.put(fielderror.getField(), fielderror.getDefaultMessage());
-        }
-        error.setValidationErrors(validerr);
-        return error;
-    }*/
+    @GetMapping("/api/1.0/allusers")
+    @JsonView(Views.Base.class)
+    List<User> getAllUsers() {
+        return userService.getUsers();
+    }
+
+    @GetMapping("/api/1.0/users")
+    @JsonView(Views.Base.class)
+    Page<User> getUsers(Pageable page) {
+        return userService.getUsersPageable(page);
+    }
 }

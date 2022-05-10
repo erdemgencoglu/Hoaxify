@@ -1,13 +1,11 @@
 package com.tetamatrix.hoaxify.hoafbackend;
 
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
-import com.tetamatrix.hoaxify.hoafbackend.user.UserRepository;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserService;
 import java.util.Locale;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication()
@@ -23,13 +21,12 @@ public class HoaxifyApplication {
     /*@Bean
     CommandLineRunner createInitialUsers(UserService userService) {
         {
-            return new CommandLineRunner() {
-                @Override
-                public void run(String... args) throws Exception {
+            return (args) -> {
+                for (int i = 0; i < 10; i++) {
                     User user = new User();
-                    user.setUsername("user1");
+                    user.setUsername("user" + i);
                     user.setPassword("P4ssword");
-                    user.setDisplayName("display1");
+                    user.setDisplayName("display" + i);
                     userService.save(user);
                 }
             };
