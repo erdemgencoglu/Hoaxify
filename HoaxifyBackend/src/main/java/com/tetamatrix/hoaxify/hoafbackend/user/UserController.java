@@ -6,8 +6,9 @@ package com.tetamatrix.hoaxify.hoafbackend.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
-import com.tetamatrix.hoaxify.hoafbackend.Views;
+import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;
 import java.util.List;
+import java.util.function.Function;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +40,14 @@ public class UserController {
     }
 
     @GetMapping("/api/1.0/allusers")
-    @JsonView(Views.Base.class)
     List<User> getAllUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/api/1.0/users")
-    @JsonView(Views.Base.class)
-    Page<User> getUsers(Pageable page) {
-        return userService.getUsersPageable(page);
+    Page<UserVm> getUsers(Pageable page) {
+        return userService.getUsersPageable(page).map((user) -> {
+            return new UserVm(user);
+        });
     }
 }

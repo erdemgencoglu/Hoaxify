@@ -6,10 +6,10 @@ package com.tetamatrix.hoaxify.hoafbackend.auth;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.tetamatrix.hoaxify.hoafbackend.ApiError;
-import com.tetamatrix.hoaxify.hoafbackend.Views;
 import com.tetamatrix.hoaxify.hoafbackend.user.CurrentUser;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserRepository;
+import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;
 import java.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +39,7 @@ public class AuthenticationController {
     UserRepository userRepository;
 
     @PostMapping("api/1.0/auth")
-    @JsonView(Views.Base.class)
-    ResponseEntity<?> handleAuthentication(@CurrentUser User user) {
-        return ResponseEntity.ok(user);
+    UserVm handleAuthentication(@CurrentUser User user) {
+        return new UserVm(user);
     }
 }

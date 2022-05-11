@@ -45,6 +45,6 @@ public class UserService {
 
     //select user with pageable
     Page<User> getUsersPageable(Pageable page) {
-        return  userRepository.findAll(page);
+        return userRepository.findAll(page);
     }
 }

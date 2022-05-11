@@ -11,6 +11,7 @@ export const login = (body) => {
 export const getUsers = () => {
     return axios.get('/api/1.0/users')
 }
+
 export const changeLanguage = (language) => {
     axios.defaults.headers['accept-language'] = language
 }

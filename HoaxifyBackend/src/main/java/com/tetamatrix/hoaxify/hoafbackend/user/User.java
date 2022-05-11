@@ -5,7 +5,6 @@
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.tetamatrix.hoaxify.hoafbackend.Views;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,17 +33,14 @@ public class User implements UserDetails {
     @NotNull(message = "{hoaxify.constraint.username.NotNull.message}")//javax validation implement
     @Size(min = 4, max = 255)
     @UniqueUsername
-    @JsonView(Views.Base.class)
     private String username;
     @NotNull
     @Size(min = 4, max = 255)
-    @JsonView(Views.Base.class)
     private String displayName;
     @NotNull
     @Size(min = 8)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{hoaxify.constraint.password.Pattern.message}")//Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
     private String password;
-    @JsonView(Views.Base.class)
     private String image;
 
     @Override
