@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     //Arka planda spring data methoda karşılık gelen queryi üretip veritabanı işlemlerini otomatik sağlar
     User findByUsername(String username);
+
+    Page<User> findByUsernameNot(String username, Pageable page);
 }

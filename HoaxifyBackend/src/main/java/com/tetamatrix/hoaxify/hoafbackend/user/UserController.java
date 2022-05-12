@@ -45,8 +45,8 @@ public class UserController {
     }
 
     @GetMapping("/api/1.0/users")
-    Page<UserVm> getUsers(Pageable page) {
-        return userService.getUsersPageable(page).map((user) -> {
+    Page<UserVm> getUsers(Pageable page,@CurrentUser User cuser) {
+        return userService.getUsersPageable(page,cuser).map((user) -> {
             return new UserVm(user);
         });
     }

@@ -44,7 +44,10 @@ public class UserService {
     }
 
     //select user with pageable
-    Page<User> getUsersPageable(Pageable page) {
+    Page<User> getUsersPageable(Pageable page, User user) {
+        if (user != null) {
+            return userRepository.findByUsernameNot(user.getUsername(), page);
+        }
         return userRepository.findAll(page);
     }
 }

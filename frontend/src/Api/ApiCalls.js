@@ -15,3 +15,12 @@ export const getUsers = (page = 0, size = 3) => {
 export const changeLanguage = (language) => {
     axios.defaults.headers['accept-language'] = language
 }
+export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
+    if (isLoggedIn) {
+        const authorizationHeaderValue = `Basic ${btoa(username + ':' + password)}`//btoa stringi base64 e çevirir
+        axios.defaults.headers['Authorization'] = authorizationHeaderValue
+    }
+    else {
+        delete axios.defaults.headers['Authorization']
+    }
+}
