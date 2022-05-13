@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author pln226
  */
 @RestController
+@RequestMapping("/api/1.0")
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -33,21 +36,27 @@ public class UserController {
     UserService userService;
 
     //Valid ifadesi request gelmeden önce spring validationdam geçerek işleme başlar
-    @PostMapping("/api/1.0/users")
+    @PostMapping("/users")
     public GenericResponse createUser(@Valid @RequestBody User user) {
         userService.save(user);
         return new GenericResponse("User Created");
     }
 
-    @GetMapping("/api/1.0/allusers")
+    @GetMapping("/allusers")
     List<User> getAllUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping("/api/1.0/users")
-    Page<UserVm> getUsers(Pageable page,@CurrentUser User cuser) {
-        return userService.getUsersPageable(page,cuser).map((user) -> {
+    @GetMapping("/users")
+    Page<UserVm> getUsers(Pageable page, @CurrentUser User cuser) {
+        return userService.getUsersPageable(page, cuser).map((user) -> {
             return new UserVm(user);
         });
+    }
+
+    @GetMapping("/users/{username}")
+    UserVm getUser(@PathVariable String username) {
+        User user = userService.getByUsername(username);
+        return new UserVm(user);
     }
 }

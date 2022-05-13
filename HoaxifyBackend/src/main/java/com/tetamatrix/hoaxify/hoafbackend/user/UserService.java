@@ -4,6 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
+import com.tetamatrix.hoaxify.hoafbackend.NotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,15 +40,24 @@ public class UserService {
     }
 
     //select all user
-    List<User> getUsers() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
     //select user with pageable
-    Page<User> getUsersPageable(Pageable page, User user) {
+    public Page<User> getUsersPageable(Pageable page, User user) {
         if (user != null) {
             return userRepository.findByUsernameNot(user.getUsername(), page);
         }
         return userRepository.findAll(page);
+    }
+
+    //get user by username
+    public User getByUsername(String username) {
+        User inDb = userRepository.findByUsername(username);
+        if (inDb == null) {
+            throw new NotFoundException();
+        }
+        return inDb;
     }
 }
