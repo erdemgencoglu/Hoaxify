@@ -3,6 +3,7 @@ import { getUsers } from '../Api/ApiCalls'
 import { useTranslation, withTranslation } from 'react-i18next';
 import UserListItem from './UserListItem';
 import { useApiProgress } from '../shared/ApiProgress';
+import Spinner from './Spinner';
 const UserList = () => {
     const [page, setPage] = useState({
         content: [],
@@ -38,18 +39,14 @@ const UserList = () => {
     const { t } = useTranslation();
     const { content, last, first } = page;
     let actionDiv = (
-        <div className='list-group-flush mt-2'>
+        <div className='list-group-flush mt-2' style={{ margin: 5 }}>
             {first === false && <button className='btn btn-light btn-sm' onClick={onClickPrevious}>{t('Previous')}</button>}
             {last === false && <button className='btn btn-light btn-sm' onClick={onClickNext} style={{ float: 'right' }}>{t('Next')}</button>}
         </div>
     )
     if (pendingApiCall) {
         actionDiv = (
-            <div className="d-flex justify-content-center">
-                <div className="spinner-border text-black-50" >
-
-                </div>
-            </div>
+            <Spinner></Spinner>
         )
     }
     return (

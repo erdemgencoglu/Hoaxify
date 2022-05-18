@@ -4,11 +4,9 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;
 import java.util.List;
-import java.util.function.Function;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

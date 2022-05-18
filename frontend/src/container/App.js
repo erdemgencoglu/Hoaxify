@@ -3,7 +3,7 @@ import Login from '../Pages/Login';
 import LanguageSelector from '../Components/LanguageSelector';
 import SignUp from '../Pages/SignUp';
 import HomePage from "../Pages/HomePage";
-import UserPorfilePage from "../Pages/UserPorfilePage";
+import UserProfilePage from "../Pages/UserProfilePage";
 import PageNotFound from "../Pages/PageNotFound"
 import Navbar from "../Components/Navbar";
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
@@ -24,7 +24,7 @@ const App = () => {
           <Route exact path="/" component={HomePage} />
           {!isLoggedIn && <Route path="/login" component={Login} />}
           <Route path="/signup" component={SignUp} />
-          <Route path="/user/:username" component={UserPorfilePage} />
+          <Route path="/user/:username" component={UserProfilePage} />
           <Redirect to="/"></Redirect>
           <Route path="*" component={PageNotFound} />
         </Switch>
