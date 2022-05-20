@@ -38,7 +38,7 @@ const ProfileCard = (props) => {
                 {inEditMode &&
                     (
                         <div>
-                            <Input label={t('Change Display Name')}></Input>
+                            <Input label={t('Change Display Name')} defaultValue={displayName}></Input>
                             <div>
                                 <button className='btn btn-primary  d-inline-flex'> <span className="material-icons ">save</span>{t('Save')}</button>
                                 <button className='btn btn-light  d-inline-flex ms-2' onClick={() => setInEditMode(false)}><span className="material-icons ">close</span>{t('Cancel')}</button>
