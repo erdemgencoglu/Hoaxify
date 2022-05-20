@@ -5,6 +5,7 @@
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
 import com.tetamatrix.hoaxify.hoafbackend.NotFoundException;
+import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserUpdateVm;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,5 +60,14 @@ public class UserService {
             throw new NotFoundException();
         }
         return inDb;
+    }
+    
+    //Hybernate kontrol işlemi
+    //databaseden getirdiğimiz user için primary keyler mevcut
+    //save ederken bu id nin varlığında yola çıkarak save mi update mi yapıcak buna otomatik karar veriyor
+    public User updateUser(String username, UserUpdateVm updatedUser) {
+          User inDb = getByUsername(username);
+          inDb.setDisplayName(updatedUser.getDisplayName());
+          return userRepository.save(inDb);
     }
 }
