@@ -12,7 +12,7 @@ const UserList = () => {
     })
 
     const [loadFailure, setLoadFailure] = useState(false)
-    const pendingApiCall = useApiProgress('/api/1.0/users?page')
+    const pendingApiCall = useApiProgress('get', '/api/1.0/users?page')
     //didmount ile didupdate çalıştırılır infinity loop durumu oluşabilir
     //[] şartı ile [] kısmında bir değişiklik olursa çalıştır durumu oluşturuyoruz
     useEffect(() => {
