@@ -4,6 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
+import com.tetamatrix.hoaxify.hoafbackend.ApiError;
 import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserUpdateVm;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;
@@ -14,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,9 +65,10 @@ public class UserController {
     }
 
     @PutMapping("/users/{username}")
+    @PreAuthorize("#username == principal.username")
     UserVm updateUser(@RequestBody UserUpdateVm updatedUser, @PathVariable String username) {
         User user = userService.updateUser(username, updatedUser);
-        return new UserVm(user);
+        return new UserVm((user));
     }
 
 }

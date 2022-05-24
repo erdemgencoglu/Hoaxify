@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
-import defaultPictue from '../assets/profile.jpg'
 import { useTranslation } from 'react-i18next';
 import Input from '../Components/Input';
 import { updateUser } from '../Api/ApiCalls';
 import { useApiProgress } from '../shared/ApiProgress';
 import ButtonWithProgress from './ButtonWithProgress';
+import ProfileImageWithDefault from './ProfileImageWithDefault';
 const ProfileCard = (props) => {
     const [user, setUser] = useState({})
     const [inEditMode, setInEditMode] = useState(false)
@@ -15,23 +15,32 @@ const ProfileCard = (props) => {
     const routeParams = useParams();
     const { t } = useTranslation()
     const pathUsername = routeParams.username
-    //const { user } = props;
     const { username, displayName, image } = user
+    const [editable, setEditable] = useState(false);
+    const [newImage, setNewImage] = useState()
 
     useEffect(() => {
         setUser(props.user)
     }, [props.user])
 
     useEffect(() => {
-        if (inEditMode)
+        setEditable(loggedUsername === pathUsername)
+    }, [pathUsername, loggedUsername])
+
+    useEffect(() => {
+        if (!inEditMode) {
             setUpdatedDisplayName(undefined)
+            setNewImage(undefined)
+        }
         else
             setUpdatedDisplayName(displayName)
     }, [inEditMode, displayName])
 
     const onClickSave = async () => {
         const body = {
-            displayName: updatedDisplayName
+            displayName: updatedDisplayName,
+            image: newImage.split(',')[1]
+
         }
         try {
             const response = await updateUser(username, body)
@@ -41,21 +50,27 @@ const ProfileCard = (props) => {
 
         }
     }
+
+    const onChangeFile = event => {
+        const file = event.target.files[0]
+        const fileReader = new FileReader();
+        fileReader.onloadend = () => {
+            setNewImage(fileReader.result)
+        }
+        fileReader.readAsDataURL(file)
+    }
     const pendingApiCall = useApiProgress('put', '/api/1.0/users/' + username)
 
-    let message = "We can not edit"
-    if (loggedUsername === pathUsername) {
-        message = "We can edit"
-    }
-
-    let imageSource = defaultPictue
-    if (image) {
-        imageSource = image
-    }
     return (
         <div className="card" style={{ marginBottom: 5 }}>
             <div className='text-center'>
-                <img className='rounded-circle shadow' alt={`${username} profile`} src={imageSource} width="128" height="128" />
+                <ProfileImageWithDefault
+                    className='rounded-circle shadow'
+                    width="128" height="128"
+                    alt={`${username} profile`}
+                    image={image}
+                    tempimage={newImage}
+                />
             </div>
             <div className="card-body text-center">
                 {!inEditMode &&
@@ -63,7 +78,7 @@ const ProfileCard = (props) => {
                         <>
                             <h5 className="card-title">{displayName}@{username}</h5>
                             <p className="card-text"></p>
-                            <button className='btn btn-success d-inline-flex' onClick={() => setInEditMode(true)}> <span className="material-icons ">edit</span>{t('Edit')}</button>
+                            {editable && <button className='btn btn-success d-inline-flex' onClick={() => setInEditMode(true)}> <span className="material-icons ">edit</span>{t('Edit')}</button>}
                         </>
                     )
                 }
@@ -71,7 +86,8 @@ const ProfileCard = (props) => {
                     (
                         <div>
                             <Input label={t('Change Display Name')} defaultValue={displayName} onChange={(event) => { setUpdatedDisplayName(event.target.value) }}></Input>
-                            <div>
+                            <input type="file" onChange={onChangeFile} />
+                            <div className=' d-inline-flex'>
                                 <ButtonWithProgress
                                     className='btn btn-primary  d-inline-flex'
                                     onClick={onClickSave}

@@ -30,13 +30,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private long id;
+    
     @NotNull(message = "{hoaxify.constraint.username.NotNull.message}")//javax validation implement
     @Size(min = 4, max = 255)
     @UniqueUsername
     private String username;
+    
     @NotNull
     @Size(min = 4, max = 255)
     private String displayName;
+    
     @NotNull
     @Size(min = 8)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{hoaxify.constraint.password.Pattern.message}")//Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:

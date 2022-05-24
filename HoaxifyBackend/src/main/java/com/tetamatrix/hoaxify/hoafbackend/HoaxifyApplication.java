@@ -7,29 +7,28 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication()
 public class HoaxifyApplication {
 
     public static void main(String[] args) {
         //Default dili ingilizce yapma
-        Locale.setDefault(Locale.ENGLISH);
         SpringApplication.run(HoaxifyApplication.class, args);
     }
 
     //Spring ayağa kalkmadan önce çalışacak method
-    /*@Bean
+    @Bean
+    @Profile("!dev")
     CommandLineRunner createInitialUsers(UserService userService) {
-        {
-            return (args) -> {
-                for (int i = 0; i < 10; i++) {
-                    User user = new User();
-                    user.setUsername("user" + i);
-                    user.setPassword("P4ssword");
-                    user.setDisplayName("display" + i);
-                    userService.save(user);
-                }
-            };
-        }
-    }*/
+        return (args) -> {
+            for (int i = 0; i < 10; i++) {
+                User user = new User();
+                user.setUsername("user" + i);
+                user.setDisplayName("display" + i);
+                user.setPassword("P4ssword");
+                userService.save(user);
+            }
+        };
+    } 
 }

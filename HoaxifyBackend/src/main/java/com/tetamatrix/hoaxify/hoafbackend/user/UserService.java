@@ -5,7 +5,14 @@
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
 import com.tetamatrix.hoaxify.hoafbackend.NotFoundException;
+import com.tetamatrix.hoaxify.hoafbackend.file.FileService;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserUpdateVm;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Base64;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,12 +33,14 @@ public class UserService {
 
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    FileService fileService;
 
     //dependincy enjection with contsructer 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, FileService fileService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.fileService = fileService;
     }
 
     //insert user
@@ -56,18 +65,27 @@ public class UserService {
     //get user by username
     public User getByUsername(String username) {
         User inDb = userRepository.findByUsername(username);
-        if (inDb == null) {
+        if (inDb == null) { 
             throw new NotFoundException();
         }
         return inDb;
     }
-    
+
     //Hybernate kontrol işlemi
     //databaseden getirdiğimiz user için primary keyler mevcut
     //save ederken bu id nin varlığında yola çıkarak save mi update mi yapıcak buna otomatik karar veriyor
     public User updateUser(String username, UserUpdateVm updatedUser) {
-          User inDb = getByUsername(username);
-          inDb.setDisplayName(updatedUser.getDisplayName());
-          return userRepository.save(inDb);
+        User inDb = getByUsername(username);
+        inDb.setDisplayName(updatedUser.getDisplayName());
+        if (updatedUser.getImage() != null) {
+            //inDb.setImage(updatedUser.getImage());
+            try {
+                String storedFile = fileService.writeBase64EncodedStringToFile(updatedUser.getImage());
+                inDb.setImage(storedFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return userRepository.save(inDb);
     }
 }

@@ -6,7 +6,7 @@ const UserListItem = (props) => {
     const { username, displayName, image } = user
     let imageSource = defaultPictue
     if (image) {
-        imageSource = image
+        imageSource = 'images/' + image
     }
     return (
         <Link className='list-group-item list-group-item-action' to={`/user/${user.username}`}>
