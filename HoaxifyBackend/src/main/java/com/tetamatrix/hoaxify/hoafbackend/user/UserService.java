@@ -65,7 +65,7 @@ public class UserService {
     //get user by username
     public User getByUsername(String username) {
         User inDb = userRepository.findByUsername(username);
-        if (inDb == null) { 
+        if (inDb == null) {
             throw new NotFoundException();
         }
         return inDb;
@@ -78,13 +78,14 @@ public class UserService {
         User inDb = getByUsername(username);
         inDb.setDisplayName(updatedUser.getDisplayName());
         if (updatedUser.getImage() != null) {
-            //inDb.setImage(updatedUser.getImage());
+            String oldImageName = inDb.getImage();
             try {
                 String storedFile = fileService.writeBase64EncodedStringToFile(updatedUser.getImage());
                 inDb.setImage(storedFile);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            fileService.deleteFile(oldImageName);
         }
         return userRepository.save(inDb);
     }

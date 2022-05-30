@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,16 @@ public class FileService {
 
     public String generateRandomName() {
         return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    public void deleteFile(String oldImageName) {
+        if (oldImageName == null) {
+            return;
+        }
+        try {
+            Files.deleteIfExists(Paths.get(appConfiguration.getUploadPath(), oldImageName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
