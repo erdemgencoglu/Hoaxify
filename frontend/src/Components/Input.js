@@ -1,7 +1,13 @@
 import React from 'react';
 const Input = (props) => {
     const { label, error, name, onChange, type, defaultValue } = props
-    const classname = error ? 'form-control is-invalid' : "form-control"
+    let classname = 'form-control'
+    if (type === 'file') {
+        classname += '-file'
+    }
+    if (error !== undefined) {
+        classname += ' is-invalid'
+    }
     return (
         <div className="mb-3">
             <label className="form-label">{label}</label>

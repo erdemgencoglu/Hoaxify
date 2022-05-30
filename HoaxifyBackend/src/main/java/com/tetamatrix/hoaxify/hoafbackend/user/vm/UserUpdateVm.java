@@ -7,6 +7,7 @@ package com.tetamatrix.hoaxify.hoafbackend.user.vm;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
+import com.tetamatrix.hoaxify.hoafbackend.user.FileType;
 
 /**
  *
@@ -14,8 +15,11 @@ import lombok.Data;
  */
 @Data
 public class UserUpdateVm {
+
     @NotNull
     @Size(min = 4, max = 255)
     private String displayName;
+
+    @FileType(types = {"jpeg", "png"})
     private String image;
 }

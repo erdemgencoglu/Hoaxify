@@ -45,6 +45,16 @@ const ProfileCard = (props) => {
             }
         })
     }, [updatedDisplayName])
+
+    useEffect(() => {
+        setValidationErrors((previousValidationErrors) => {
+            return {
+                ...previousValidationErrors,
+                image: undefined
+            }
+        })
+    }, [newImage])
+
     const onClickSave = async () => {
         let image;
         if (newImage) {
@@ -77,7 +87,7 @@ const ProfileCard = (props) => {
         fileReader.readAsDataURL(file)
     }
     const pendingApiCall = useApiProgress('put', '/api/1.0/users/' + username)
-    const { displayName: displayNameError } = validationErrors
+    const { displayName: displayNameError, image: imageError } = validationErrors
 
     return (
         <div className="card" style={{ marginBottom: 5 }}>
@@ -109,7 +119,7 @@ const ProfileCard = (props) => {
                                 onChange={(event) => { setUpdatedDisplayName(event.target.value) }}
                                 error={displayNameError}>
                             </Input>
-                            <input type="file" onChange={onChangeFile} />
+                            <Input type="file" onChange={onChangeFile} error={imageError} />
                             <div className=' d-inline-flex'>
                                 <ButtonWithProgress
                                     className='btn btn-primary  d-inline-flex'

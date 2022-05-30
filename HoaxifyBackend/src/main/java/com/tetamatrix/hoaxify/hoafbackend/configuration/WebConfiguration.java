@@ -28,6 +28,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // http://localhost:8080/images/profile.png
+        // base url den sonra  /images/ ifadesi gelirse bu ifadeden sonra uploadPath den dosyayı arar
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:./" + appConfiguration.getUploadPath() + "/")
                 .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));//365 gün image cacler
