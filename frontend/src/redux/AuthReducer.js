@@ -20,6 +20,14 @@ const authReducer = (state = { ...defaultState }, action) => {
         }
 
     }
+    else if (action.type === ACTIONS.UPDATE_SUCCESS) {
+        return {
+            ...state,
+            displayName: action.payload.displayName,
+            image: action.payload.image
+        }
+
+    }
     return state;
 }
 export default authReducer

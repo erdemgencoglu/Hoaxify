@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Input from '../Components/Input';
 import { updateUser } from '../Api/ApiCalls';
 import { useApiProgress } from '../shared/ApiProgress';
 import ButtonWithProgress from './ButtonWithProgress';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
+import { updateSuccess } from '../redux/AuthActions'
+
 const ProfileCard = (props) => {
     const [user, setUser] = useState({})
     const [inEditMode, setInEditMode] = useState(false)
@@ -19,7 +21,7 @@ const ProfileCard = (props) => {
     const [editable, setEditable] = useState(false);
     const [newImage, setNewImage] = useState()
     const [validationErrors, setValidationErrors] = useState({})
-
+    const dispatch = useDispatch()
     useEffect(() => {
         setUser(props.user)
     }, [props.user])
@@ -69,6 +71,7 @@ const ProfileCard = (props) => {
             const response = await updateUser(username, body)
             setInEditMode(false)
             setUser(response.data)
+            dispatch(updateSuccess(response.data))
         } catch (error) {
             setValidationErrors(error.response.data.validationErrors)
         }

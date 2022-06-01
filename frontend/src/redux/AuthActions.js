@@ -16,6 +16,16 @@ export const loginSuccess = (authState) => {
     }
 }
 
+export const updateSuccess = ({ displayName, image }) => {
+    return {
+        type: ACTIONS.UPDATE_SUCCESS,
+        payload: {
+            displayName, image
+        }
+    }
+}
+
+
 //fonksiyon dönüyor bunu işlemek için ara katman kullanılmalı redux thunk (configureStore da kullanılır) 
 export const loginHandler = (credential) => {
     return async function (dispatch) {
