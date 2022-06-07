@@ -12,9 +12,7 @@ const Input = (props) => {
         <div className="mb-3">
             <label className="form-label">{label}</label>
             <input className={classname} name={name} onChange={onChange} type={type} autoComplete="on" defaultValue={defaultValue}></input>
-            <div className="invalid-feedback">
-                {props.error}
-            </div>
+            <div className="invalid-feedback"> {props.error}</div>
         </div>
     )
 }
