@@ -4,9 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import java.util.Collection;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

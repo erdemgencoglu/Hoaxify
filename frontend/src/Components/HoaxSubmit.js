@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
 import { postHoax } from '../Api/ApiCalls';
-
+import ButtonWithProgress from './ButtonWithProgress';
+import { useApiProgress } from '../shared/ApiProgress';
 const HoaxSubmit = () => {
     const { image } = useSelector((store) => ({ image: store.image }))
     const [focused, setFocused] = useState(false)
@@ -21,6 +22,7 @@ const HoaxSubmit = () => {
         setErrors({})
     }, [hoax])
 
+    const pendingApiCall = useApiProgress('post', '/api/1.0/hoaxes')
     const onClickHoaxify = async () => {
         const body = {
             content: hoax
@@ -38,6 +40,7 @@ const HoaxSubmit = () => {
     if (errors.content) {
         textAreaClass += ' is-invalid'
     }
+
     return (
         <div className='card p-1 flex-row'>
             <ProfileImageWithDefault className='rounded-circle m-1' image={image} width='45' height='45'></ProfileImageWithDefault>
@@ -47,11 +50,18 @@ const HoaxSubmit = () => {
                     {errors.content}
                 </div>
                 {focused && <div className='text-end mt-1'>
-                    <button className='btn btn-primary' onClick={onClickHoaxify}>Hoaxify</button>
+                    <ButtonWithProgress
+                        className='btn btn-primary'
+                        onClick={onClickHoaxify}
+                        disabled={pendingApiCall}
+                        pendingApiCall={pendingApiCall}
+                        text='Hoaxify'
+                    >
+                    </ButtonWithProgress>
                     <button
                         className='btn btn-light  d-inline-flex ms-2'
-                        onClick={() => setFocused(false)
-                        }
+                        onClick={() => setFocused(false)}
+                        disabled={pendingApiCall}
                     ><span className="material-icons ">close</span>{t('Cancel')}</button>
                 </div>}
             </div>

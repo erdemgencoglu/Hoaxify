@@ -447,3 +447,18 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/pln
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 67 more
+2022-06-08 12:47:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "USER VARBINARY(255)": "X'aced00057372002c636f6d2e746574616d61747269782e686f61786966792e686f61666261636b656e642e757365722e5573657279ecf83e3a6518c3020005... (271)"; SQL statement:
+insert into hoax (content, timestamp, user, id) values (?, ?, ?, ?) [22001-200]
+2022-06-08 12:52:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "USER VARBINARY(255)": "X'aced00057372002c636f6d2e746574616d61747269782e686f61786966792e686f61666261636b656e642e757365722e5573657279ecf83e3a6518c3020005... (271)"; SQL statement:
+insert into hoax (content, timestamp, user, id) values (?, ?, ?, ?) [22001-200]
+2022-06-08 12:58:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "USER VARBINARY(255)": "X'aced00057372002c636f6d2e746574616d61747269782e686f61786966792e686f61666261636b656e642e757365722e5573657279ecf83e3a6518c3020005... (271)"; SQL statement:
+insert into hoax (content, timestamp, user, id) values (?, ?, ?, ?) [22001-200]
+2022-06-08 13:05:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "USER VARBINARY(255)": "X'aced00057372002c636f6d2e746574616d61747269782e686f61786966792e686f61666261636b656e642e757365722e5573657279ecf83e3a6518c3020005... (271)"; SQL statement:
+insert into hoax (content, timestamp, user, id) values (?, ?, ?, ?) [22001-200]
+2022-06-08 13:09:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "USER VARBINARY(255)": "X'aced00057372002c636f6d2e746574616d61747269782e686f61786966792e686f61666261636b656e642e757365722e5573657279ecf83e3a6518c3020005... (271)"; SQL statement:
+insert into hoax (content, timestamp, user, id) values (?, ?, ?, ?) [22001-200]

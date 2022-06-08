@@ -4,7 +4,10 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.hoax;
 
+import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import java.util.Date;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,8 +23,13 @@ public class HoaxService {
         this.hoaxRepository = hoaxRepository;
     }
     
-    public void save(Hoax hoax) {
+    public void save(Hoax hoax,User user) {
         hoax.setTimestamp(new Date());
+        hoax.setUser(user);
         hoaxRepository.save(hoax);
+    }
+    
+    public Page<Hoax> getHoaxPageable(Pageable page) {
+        return hoaxRepository.findAll(page);
     }
 }

@@ -23,6 +23,7 @@
     "secure-ls": "^1.2.6",
     "sweetalert2": "^11.4.8",
     "sweetalert2-react-content": "^4.2.0",
+    "timeago.js": "^4.0.2",
     "toastr": "^2.1.4",
     "web-vitals": "^2.1.4"
   },

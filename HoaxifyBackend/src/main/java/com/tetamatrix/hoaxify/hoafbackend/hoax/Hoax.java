@@ -4,11 +4,16 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.hoax;
 
+import com.tetamatrix.hoaxify.hoafbackend.user.User;
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
@@ -33,4 +38,6 @@ public class Hoax {
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
+    @OneToOne(cascade = CascadeType.MERGE)//User entity sinide obje olarak kaydedebilmek için(Current user)
+    private User user;
 }

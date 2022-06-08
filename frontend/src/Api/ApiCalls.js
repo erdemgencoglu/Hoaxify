@@ -25,6 +25,10 @@ export const postHoax = (body) => {
     return axios.post('/api/1.0/hoaxes', body)
 }
 
+export const getHoaxes = (page = 0) => {
+    return axios.get(`/api/1.0/hoaxes?page=${page}`)
+}
+
 export const changeLanguage = (language) => {
     axios.defaults.headers['accept-language'] = language
 }

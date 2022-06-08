@@ -5,10 +5,19 @@
 package com.tetamatrix.hoaxify.hoafbackend.hoax;
 
 import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
+import com.tetamatrix.hoaxify.hoafbackend.hoax.vm.HoaxVm;
+import com.tetamatrix.hoaxify.hoafbackend.user.CurrentUser;
+import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,14 +25,20 @@ import org.springframework.web.bind.annotation.RestController;
  * @author pln226
  */
 @RestController
+@RequestMapping("api/1.0")
 public class HoaxController {
 
     @Autowired
     HoaxService hoaxService;
 
-    @PostMapping("api/1.0/hoaxes")
-    GenericResponse saveHoax(@Valid @RequestBody Hoax hoax) {
-        hoaxService.save(hoax);
+    @PostMapping("/hoaxes")
+    GenericResponse saveHoax(@Valid @RequestBody Hoax hoax, @CurrentUser User user) {
+        hoaxService.save(hoax, user);
         return new GenericResponse("Hoax is saved");
+    }
+
+    @GetMapping("/hoaxes")
+    Page<HoaxVm> getHoaxes(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return hoaxService.getHoaxPageable(page).map(HoaxVm::new);
     }
 }
