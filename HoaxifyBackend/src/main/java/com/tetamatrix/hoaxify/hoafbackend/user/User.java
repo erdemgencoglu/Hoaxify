@@ -7,6 +7,7 @@ package com.tetamatrix.hoaxify.hoafbackend.user;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -26,18 +27,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     @NotNull(message = "{hoaxify.constraint.username.NotNull.message}")//javax validation implement
     @Size(min = 4, max = 255)
     @UniqueUsername
     private String username;
-    
+
     @NotNull
     @Size(min = 4, max = 255)
     private String displayName;
-    
+
     @NotNull
     @Size(min = 8)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{hoaxify.constraint.password.Pattern.message}")//Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:

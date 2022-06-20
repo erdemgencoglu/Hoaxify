@@ -35,7 +35,7 @@ public class HoaxifyApplication {
                 user.setDisplayName("display" + i);
                 user.setPassword("P4ssword");
                 userService.save(user);
-                for (int j = 0; j < 2; j++) {
+                for (int j = 0; j < 20; j++) {
                     Hoax hoax = new Hoax();
                     hoax.setContent("hoax (" + j + ") from user (" + i + ")");
                     hoaxService.save(hoax, user);

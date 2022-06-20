@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,4 +42,20 @@ public class HoaxController {
     Page<HoaxVm> getHoaxes(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
         return hoaxService.getHoaxPageable(page).map(HoaxVm::new);
     }
+
+    @GetMapping("/users/{username}/hoaxes")
+    Page<HoaxVm> getUserHoaxes(@PathVariable String username, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return hoaxService.getHoaxesOfUser(username, page).map(HoaxVm::new);
+    }
+
+    @GetMapping("/hoaxes/{id:[0-9]+}")
+    Page<HoaxVm> getHoaxesRelative(@PathVariable long id, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return hoaxService.getOldHoaxes(id, page).map(HoaxVm::new);
+    }
+
+    @GetMapping("/users/{username}/hoaxes/{id:[0-9]+}")
+    Page<HoaxVm> getUserHoaxesRelative(@PathVariable String username, @PathVariable long id, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page) {
+        return hoaxService.getUserOldHoaxes(username,id, page).map(HoaxVm::new);
+    }
+
 }

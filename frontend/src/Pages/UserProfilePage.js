@@ -4,6 +4,7 @@ import ProfileCard from '../Components/ProfileCard'
 import { getUser } from '../Api/ApiCalls';
 import { useApiProgress } from '../shared/ApiProgress'
 import Spinner from '../Components/Spinner';
+import HoaxFeed from '../Components/HoaxFeed'
 
 import { useTranslation } from 'react-i18next';
 const UserProfilePage = (props) => {
@@ -11,7 +12,7 @@ const UserProfilePage = (props) => {
     const [notFound, setNotFound] = useState(false)
     const { username } = useParams()
     const { t } = useTranslation()
-    const pendingApiCall = useApiProgress('get', '/api/1.0/users/' + username)
+    const pendingApiCall = useApiProgress('get', '/api/1.0/users/' + username, true)
 
     useEffect(() => {
         const loadUser = async () => {
@@ -25,12 +26,6 @@ const UserProfilePage = (props) => {
         }
         loadUser()
     }, [username])//her username değiştiğinde çalışssın
-
-    if (pendingApiCall) {
-        return (
-            <Spinner></Spinner>
-        )
-    }
     if (notFound) {
         return (
             <div className='container'>
@@ -44,10 +39,23 @@ const UserProfilePage = (props) => {
 
         )
     }
+    if (pendingApiCall || user.username !== username) {
+        return (
+            <Spinner></Spinner>
+        )
+    }
+
 
     return (
         <div className='container'>
-            <ProfileCard user={user} />
+            <div className='row'>
+                <div className='col'>
+                    <ProfileCard user={user} />
+                </div>
+                <div className='col'>
+                    <HoaxFeed></HoaxFeed>
+                </div>
+            </div>
         </div>
     );
 };
