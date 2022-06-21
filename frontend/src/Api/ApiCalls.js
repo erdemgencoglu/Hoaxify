@@ -36,7 +36,11 @@ export const getOldHoaxes = (id, username) => {
 }
 
 export const changeLanguage = (language) => {
-    axios.defaults.headers['accept-language'] = language
+    return axios.defaults.headers['accept-language'] = language
+}
+export const getNewHoaxCount = (id, username) => {
+    const path = username ? `/api/1.0/users/${username}/hoaxes/${id}?count=true` : `/api/1.0/hoaxes/${id}?count=true`
+    return axios.get(path)
 }
 
 export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
@@ -47,4 +51,8 @@ export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
     else {
         delete axios.defaults.headers['Authorization']
     }
+}
+export const getNewHoaxes = (id, username) => {
+    const path = username ? `/api/1.0/users/${username}/hoaxes/${id}?direction=after` : `api/1.0/hoaxes/${id}?direction=after`
+    return axios.get(path)
 }
