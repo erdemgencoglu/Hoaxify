@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -57,7 +58,7 @@ public class FileService {
         }
         try {
             Files.deleteIfExists(Paths.get(appConfiguration.getUploadPath(), oldImageName));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -66,5 +67,18 @@ public class FileService {
         byte[] base64encoded = Base64.getDecoder().decode(value);
         String fileType = tika.detect(base64encoded);
         return fileType;
+    }
+
+    public String saveHoaxAttachment(MultipartFile multipartFile){
+        String fileName = generateRandomName();
+        try {
+            File target = new File(appConfiguration.getUploadPath() + "/" + fileName);
+            OutputStream outputStream = new FileOutputStream(target);
+            outputStream.write(multipartFile.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileName;
     }
 }

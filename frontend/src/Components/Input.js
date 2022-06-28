@@ -9,7 +9,7 @@ const Input = (props) => {
         classname += ' is-invalid'
     }
     return (
-        <div className="mb-3">
+        <div className="mb-3 mt-3">
             <label className="form-label">{label}</label>
             <input className={classname} name={name} onChange={onChange} type={type} autoComplete="on" defaultValue={defaultValue}></input>
             <div className="invalid-feedback"> {props.error}</div>
