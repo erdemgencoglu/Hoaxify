@@ -607,3 +607,6 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/pln
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 128 more
+2022-07-04 09:41:51 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FILE_AHOAX" not found; SQL statement:
+SELECT * FROM FILE_AHOAX NT [42102-200]

@@ -2,6 +2,7 @@ package com.tetamatrix.hoaxify.hoafbackend;
 
 import com.tetamatrix.hoaxify.hoafbackend.hoax.Hoax;
 import com.tetamatrix.hoaxify.hoafbackend.hoax.HoaxService;
+import com.tetamatrix.hoaxify.hoafbackend.hoax.vm.HoaxSubmitVm;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserService;
 import java.util.Locale;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication()
 public class HoaxifyApplication {
-
+    
     public static void main(String[] args) {
         //Default dili ingilizce yapma
         SpringApplication.run(HoaxifyApplication.class, args);
@@ -36,12 +37,13 @@ public class HoaxifyApplication {
                 user.setPassword("P4ssword");
                 userService.save(user);
                 for (int j = 0; j < 20; j++) {
-                    Hoax hoax = new Hoax();
+                    HoaxSubmitVm hoax = new HoaxSubmitVm();
                     hoax.setContent("hoax (" + j + ") from user (" + i + ")");
+                    hoax.setAttachmentId(0L);
                     hoaxService.save(hoax, user);
                 }
             }
-
+            
         };
     }
 }

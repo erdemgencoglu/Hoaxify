@@ -24,9 +24,7 @@ public class FileController {
     FileService fileService;
 
     @PostMapping("/api/1.0/hoax-attachments")
-    Map<String, String> saveHoaxAttachment(MultipartFile multipartFile) {
-        String filename = fileService.saveHoaxAttachment(multipartFile);
-        Map<String, String> responseBody = Collections.singletonMap("name", filename);
-        return responseBody;
+    FileAttachment saveHoaxAttachment(MultipartFile multipartFile) {
+          return fileService.saveHoaxAttachment(multipartFile);
     }
 }

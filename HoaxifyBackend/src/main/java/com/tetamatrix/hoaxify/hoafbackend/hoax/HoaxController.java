@@ -5,6 +5,7 @@
 package com.tetamatrix.hoaxify.hoafbackend.hoax;
 
 import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
+import com.tetamatrix.hoaxify.hoafbackend.hoax.vm.HoaxSubmitVm;
 import com.tetamatrix.hoaxify.hoafbackend.hoax.vm.HoaxVm;
 import com.tetamatrix.hoaxify.hoafbackend.user.CurrentUser;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
@@ -39,7 +40,7 @@ public class HoaxController {
     HoaxService hoaxService;
 
     @PostMapping("/hoaxes")
-    GenericResponse saveHoax(@Valid @RequestBody Hoax hoax, @CurrentUser User user) {
+    GenericResponse saveHoax(@Valid @RequestBody HoaxSubmitVm hoax, @CurrentUser User user) {
         hoaxService.save(hoax, user);
         return new GenericResponse("Hoax is saved");
     }

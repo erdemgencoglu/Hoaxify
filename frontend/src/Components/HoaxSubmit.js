@@ -13,12 +13,14 @@ const HoaxSubmit = () => {
     const [hoax, setHoax] = useState('')
     const [errors, setErrors] = useState({})
     const [newImage, setNewImage] = useState()
+    const [attachmentId, setAttachmentId] = useState()
     const { t } = useTranslation()
     useEffect(() => {
         if (!focused) {
             setHoax('')
             setErrors({})
             setNewImage()
+            setAttachmentId()
         }
     }, [focused])
 
@@ -30,7 +32,8 @@ const HoaxSubmit = () => {
     const pendingFileUpload = useApiProgress('post', '/api/1.0/hoax-attachments', true)
     const onClickHoaxify = async () => {
         const body = {
-            content: hoax
+            content: hoax,
+            attachmentId: attachmentId
         }
         try {
             await postHoax(body)
@@ -62,7 +65,8 @@ const HoaxSubmit = () => {
     const uploadFile = async (file) => {
         const attachment = new FormData();
         attachment.append("multipartFile", file);
-        await postHoaxAttachment(attachment)
+        const response = await postHoaxAttachment(attachment)
+        setAttachmentId(response.data.id)
     }
 
     return (

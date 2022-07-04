@@ -4,6 +4,8 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.hoax.vm;
 
+import com.tetamatrix.hoaxify.hoafbackend.file.FileAttachment;
+import com.tetamatrix.hoaxify.hoafbackend.file.vm.FileAttachmentVm;
 import com.tetamatrix.hoaxify.hoafbackend.hoax.Hoax;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;
 import lombok.Data;
@@ -19,12 +21,16 @@ public class HoaxVm {
     private String content;
     private long timestamp;
     private UserVm user;
+    private FileAttachmentVm fileAttachment;
 
     public HoaxVm(Hoax hoax) {
         this.id = hoax.getId();
         this.content = hoax.getContent();
         this.timestamp = hoax.getTimestamp().getTime();
-        this.user = new UserVm(hoax.getUser()); 
+        this.user = new UserVm(hoax.getUser());
+        if (hoax.getFileAttachment() != null) {
+            this.fileAttachment = new FileAttachmentVm((hoax.getFileAttachment()));
+        }
     }
 
 }
