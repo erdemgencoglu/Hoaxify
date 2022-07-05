@@ -76,6 +76,12 @@ const HoaxFeed = () => {
         }))
         setNewHoaxCount(0);
     }
+    const onDeleteHoaxSuccess = (id) => {
+        setHoaxPage(previousHoaxPage => ({
+            ...previousHoaxPage,
+            content: previousHoaxPage.content.filter((hoax) => hoax.id !== id)
+        }))
+    }
     const { content, last } = hoaxPage
     if (content.length === 0) {
         return (
@@ -93,7 +99,7 @@ const HoaxFeed = () => {
                     {loadNewHoaxesPrgoress ? <Spinner></Spinner> : t('Load new hoaxes')}
                 </div>}
             {content.map(hoax => {
-                return <HoaxView key={hoax.id} hoax={hoax}></HoaxView>
+                return <HoaxView key={hoax.id} hoax={hoax} onDeleteHoax={onDeleteHoaxSuccess}></HoaxView>
             })}
             {
                 !last && <div className='alert alert-secondary text-center'

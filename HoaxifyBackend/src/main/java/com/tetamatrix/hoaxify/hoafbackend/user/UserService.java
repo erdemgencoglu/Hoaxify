@@ -4,7 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
-import com.tetamatrix.hoaxify.hoafbackend.NotFoundException;
+import com.tetamatrix.hoaxify.hoafbackend.error.NotFoundException;
 import com.tetamatrix.hoaxify.hoafbackend.file.FileService;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserUpdateVm;
 import java.io.File;

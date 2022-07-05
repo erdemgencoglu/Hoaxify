@@ -4,7 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
-import com.tetamatrix.hoaxify.hoafbackend.ApiError;
+import com.tetamatrix.hoaxify.hoafbackend.error.ApiError;
 import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserUpdateVm;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;

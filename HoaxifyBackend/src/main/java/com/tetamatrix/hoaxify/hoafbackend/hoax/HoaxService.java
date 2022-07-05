@@ -6,6 +6,7 @@ package com.tetamatrix.hoaxify.hoafbackend.hoax;
 
 import com.tetamatrix.hoaxify.hoafbackend.file.FileAttachment;
 import com.tetamatrix.hoaxify.hoafbackend.file.FileAttachmentRepository;
+import com.tetamatrix.hoaxify.hoafbackend.file.FileService;
 import com.tetamatrix.hoaxify.hoafbackend.hoax.vm.HoaxSubmitVm;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserService;
@@ -32,11 +33,13 @@ public class HoaxService {
     HoaxRepository hoaxRepository;
     UserService userService;
     FileAttachmentRepository fileAttachmentRepository;
+    FileService fileService;
 
-    public HoaxService(HoaxRepository hoaxRepository, UserService userService, FileAttachmentRepository fileAttachmentRepository) {
+    public HoaxService(HoaxRepository hoaxRepository, UserService userService, FileAttachmentRepository fileAttachmentRepository, FileService fileService) {
         this.hoaxRepository = hoaxRepository;
         this.userService = userService;
         this.fileAttachmentRepository = fileAttachmentRepository;
+        this.fileService = fileService;
     }
 
     public void save(HoaxSubmitVm hoaxSubmitVm, User user) {
@@ -45,11 +48,13 @@ public class HoaxService {
         hoax.setTimestamp(new Date());
         hoax.setUser(user);
         hoaxRepository.save(hoax);
-        Optional<FileAttachment> optinalFileAttachment = fileAttachmentRepository.findById(hoaxSubmitVm.getAttachmentId());
-        if (optinalFileAttachment.isPresent()) {
-            FileAttachment fileAttachment = optinalFileAttachment.get();
-            fileAttachment.setHoax(hoax);
-            fileAttachmentRepository.save(fileAttachment);
+        if (hoaxSubmitVm.getAttachmentId() != null) {
+            Optional<FileAttachment> optinalFileAttachment = fileAttachmentRepository.findById(hoaxSubmitVm.getAttachmentId());
+            if (optinalFileAttachment.isPresent()) {
+                FileAttachment fileAttachment = optinalFileAttachment.get();
+                fileAttachment.setHoax(hoax);
+                fileAttachmentRepository.save(fileAttachment);
+            }
         }
     }
 
@@ -113,5 +118,14 @@ public class HoaxService {
         return (root, query, criteriaBuilder) -> {
             return criteriaBuilder.greaterThan(root.get("id"), id);
         };
+    }
+
+    public void delete(long id) {
+        Hoax inDb = hoaxRepository.getById(id);
+        if (inDb.getFileAttachment() != null) {
+            String filename = inDb.getFileAttachment().getName();
+            fileService.deleteAttachmentFile(filename);
+        }
+        hoaxRepository.deleteById(id);
     }
 }

@@ -5,7 +5,7 @@
 package com.tetamatrix.hoaxify.hoafbackend.auth;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.tetamatrix.hoaxify.hoafbackend.ApiError;
+import com.tetamatrix.hoaxify.hoafbackend.error.ApiError;
 import com.tetamatrix.hoaxify.hoafbackend.user.CurrentUser;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserRepository;

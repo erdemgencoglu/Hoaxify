@@ -41,6 +41,6 @@ public class Hoax {
     @ManyToOne(cascade = CascadeType.MERGE)//User entity sinide obje olarak kaydedebilmek için(Current user)
     private User user;
     
-    @OneToOne(mappedBy = "hoax")
+    @OneToOne(mappedBy = "hoax",orphanRemoval = true)//orphanRemoval bu hoaxla ilgili olan tüm ilişkili verileri sil
     private FileAttachment fileAttachment;
 }
