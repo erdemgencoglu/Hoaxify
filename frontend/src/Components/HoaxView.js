@@ -61,6 +61,8 @@ const HoaxView = (props) => {
                 visible={modalVisible}
                 onClickCancel={onClickCancel}
                 onClickOk={onClickDelete}
+                title={t('Delete Hoax')}
+                okButtonTitle={t('Delete Hoax')}
                 message={
                     <div>
                         <div>

@@ -28,8 +28,10 @@ i18n.use(initReactI18next).init({
                 'Load old hoaxes': 'Load old hoaxes',
                 'There are new hoaxes': 'There are new hoaxes',
                 'Delete Hoax': 'Delete Hoax',
-                'Cancel': 'Cancel',
-                'Are you sure to delete Hoax?': 'Are you sure to delete Hoax?'
+                'Are you sure to delete Hoax?': 'Are you sure to delete Hoax?',
+                'Are you sure to delete acount?': 'Are you sure to delete acount?',
+                'Delete My acount': 'Delete My acount',
+                'Acount Delete': 'Acount Delete'
             }
         },
         tr: {
@@ -56,8 +58,10 @@ i18n.use(initReactI18next).init({
                 'Load old hoaxes': 'Geçmiş hoaxları getir',
                 'There are new hoaxes': 'Yeni hoaxlar var',
                 'Delete Hoax': "Hoax'ı sil",
-                'Cancel': "İptal",
-                'Are you sure to delete Hoax?': "Hoax'ı silmek istediğinize emin misiniz?"
+                'Are you sure to delete Hoax?': "Hoax'ı silmek istediğinize emin misiniz?",
+                'Are you sure to delete acount?': 'Hesabınızı silmek istediğinize emin misiniz?',
+                'Delete My acount': 'Hesabımı sil',
+                'Acount Delete': 'Hesap silme'
             }
         }
     },
