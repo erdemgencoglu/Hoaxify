@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Input from '../Components/Input';
@@ -7,7 +7,7 @@ import { deleteUser, updateUser } from '../Api/ApiCalls';
 import { useApiProgress } from '../shared/ApiProgress';
 import ButtonWithProgress from './ButtonWithProgress';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
-import { updateSuccess } from '../redux/AuthActions'
+import { logoutSuccess, updateSuccess } from '../redux/AuthActions'
 import Modal from './Modal';
 
 const ProfileCard = (props) => {
@@ -25,6 +25,7 @@ const ProfileCard = (props) => {
     const [modalVisible, setModalVisible] = useState(false)
     const ownedByLoggedInUser = loggedUsername === pathUsername
     const dispatch = useDispatch()
+    const history = useHistory();
     useEffect(() => {
         setUser(props.user)
     }, [props.user])
@@ -98,6 +99,8 @@ const ProfileCard = (props) => {
     const onClickDeleteUser = async () => {
         await deleteUser(username)
         setModalVisible(false)
+        dispatch(logoutSuccess())
+        history.push('/')
     }
     const pendingApiCall = useApiProgress('put', '/api/1.0/users/' + username)
     const pendingDeleteAcountApiCall = useApiProgress('delete', `/api/1.0/users/${username}`, true)

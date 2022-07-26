@@ -17,6 +17,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -35,13 +37,19 @@ public class HoaxService {
     FileAttachmentRepository fileAttachmentRepository;
     FileService fileService;
 
-    public HoaxService(HoaxRepository hoaxRepository, UserService userService, FileAttachmentRepository fileAttachmentRepository, FileService fileService) {
+    public HoaxService(HoaxRepository hoaxRepository, FileAttachmentRepository fileAttachmentRepository, FileService fileService, @Lazy UserService userService) {
+        super();
         this.hoaxRepository = hoaxRepository;
-        this.userService = userService;
         this.fileAttachmentRepository = fileAttachmentRepository;
         this.fileService = fileService;
+        this.userService = userService;
     }
 
+    /*//Setter injection
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }*/
     public void save(HoaxSubmitVm hoaxSubmitVm, User user) {
         Hoax hoax = new Hoax();
         hoax.setContent(hoaxSubmitVm.getContent());
@@ -127,5 +135,12 @@ public class HoaxService {
             fileService.deleteAttachmentFile(filename);
         }
         hoaxRepository.deleteById(id);
+    }
+
+    public void deleteHoaxesOfUser(String username) {
+        User inDb = userService.getByUsername(username);
+        Specification<Hoax> userOwned = userIs(inDb);
+        List<Hoax> hoaxesToBeRemoved = hoaxRepository.findAll(userOwned);
+        hoaxRepository.deleteAll(hoaxesToBeRemoved);
     }
 }

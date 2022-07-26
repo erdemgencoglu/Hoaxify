@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.tetamatrix.hoaxify.hoafbackend.user;
+package com.tetamatrix.hoaxify.hoafbackend.file;
 
 import com.tetamatrix.hoaxify.hoafbackend.file.FileService;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;

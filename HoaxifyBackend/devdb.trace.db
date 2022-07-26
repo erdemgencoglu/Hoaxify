@@ -610,3 +610,9 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/pln
 2022-07-04 09:41:51 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FILE_AHOAX" not found; SQL statement:
 SELECT * FROM FILE_AHOAX NT [42102-200]
+2022-07-26 09:57:53 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FILE_ATTACHMENT" not found; SQL statement:
+select fileattach0_.id as id1_0_0_, fileattach0_.date as date2_0_0_, fileattach0_.file_type as file_typ3_0_0_, fileattach0_.hoax_id as hoax_id5_0_0_, fileattach0_.name as name4_0_0_, hoax1_.id as id1_1_1_, hoax1_.content as content2_1_1_, hoax1_.timestamp as timestam3_1_1_, hoax1_.user_id as user_id4_1_1_, user2_.id as id1_2_2_, user2_.display_name as display_2_2_2_, user2_.image as image3_2_2_, user2_.password as password4_2_2_, user2_.username as username5_2_2_ from file_attachment fileattach0_ left outer join hoax hoax1_ on fileattach0_.hoax_id=hoax1_.id left outer join user user2_ on hoax1_.user_id=user2_.id where fileattach0_.id=? [42102-200]
+2022-07-26 09:58:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FILE_ATTACHMENT" not found; SQL statement:
+select fileattach0_.id as id1_0_0_, fileattach0_.date as date2_0_0_, fileattach0_.file_type as file_typ3_0_0_, fileattach0_.hoax_id as hoax_id5_0_0_, fileattach0_.name as name4_0_0_, hoax1_.id as id1_1_1_, hoax1_.content as content2_1_1_, hoax1_.timestamp as timestam3_1_1_, hoax1_.user_id as user_id4_1_1_, user2_.id as id1_2_2_, user2_.display_name as display_2_2_2_, user2_.image as image3_2_2_, user2_.password as password4_2_2_, user2_.username as username5_2_2_ from file_attachment fileattach0_ left outer join hoax hoax1_ on fileattach0_.hoax_id=hoax1_.id left outer join user user2_ on hoax1_.user_id=user2_.id where fileattach0_.id=? [42102-200]

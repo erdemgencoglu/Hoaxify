@@ -4,6 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.file;
 
+import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface FileAttachmentRepository extends JpaRepository<FileAttachment, Long> {
 
     List<FileAttachment> findByDateBeforeAndHoaxIsNull(Date date);
+
+    List<FileAttachment> findByHoaxUser(User user);
 }

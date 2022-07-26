@@ -5,6 +5,7 @@
 package com.tetamatrix.hoaxify.hoafbackend.file;
 
 import com.tetamatrix.hoaxify.hoafbackend.configuration.AppConfiguration;
+import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -126,6 +127,16 @@ public class FileService {
             deleteAttachmentFile(file.getName());
             fileAttachmentRepository.deleteById(file.getId());
             log.info("File deleted => " + file.getName());
+        }
+    }
+
+    public void deleteAllStoredFilesForUser(User inDb) {
+        //profile image silme
+        deleteProfileImage(inDb.getImage());
+        //attachmentları silme
+        List<FileAttachment> filesTobeRemoved = fileAttachmentRepository.findByHoaxUser(inDb);
+        for (FileAttachment fileAttachment : filesTobeRemoved) {
+            deleteAttachmentFile(fileAttachment.getName());
         }
     }
 }

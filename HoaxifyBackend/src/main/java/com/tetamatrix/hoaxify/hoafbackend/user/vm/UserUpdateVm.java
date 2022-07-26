@@ -7,7 +7,7 @@ package com.tetamatrix.hoaxify.hoafbackend.user.vm;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
-import com.tetamatrix.hoaxify.hoafbackend.user.FileType;
+import com.tetamatrix.hoaxify.hoafbackend.file.FileType;
 
 /**
  *

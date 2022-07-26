@@ -6,6 +6,7 @@ package com.tetamatrix.hoaxify.hoafbackend.user;
 
 import com.tetamatrix.hoaxify.hoafbackend.error.NotFoundException;
 import com.tetamatrix.hoaxify.hoafbackend.file.FileService;
+import com.tetamatrix.hoaxify.hoafbackend.hoax.HoaxService;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserUpdateVm;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +16,7 @@ import java.io.OutputStream;
 import java.util.Base64;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,13 +38,17 @@ public class UserService {
     FileService fileService;
 
     //dependincy enjection with contsructer 
-    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, FileService fileService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.fileService = fileService;
     }
 
+    /*//Setter injection (2 service birbirine bağlı olduğu durumlarda kullanılır)
+    @Autowired
+    public void setHoaxService(HoaxService hoaxService) {
+        this.hoaxService = hoaxService;
+    }*/
     //insert user
     public void save(User user) {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
@@ -88,5 +94,11 @@ public class UserService {
             fileService.deleteProfileImage(oldImageName);
         }
         return userRepository.save(inDb);
+    }
+
+    public void deleteUser(String username) {
+        User inDb = getByUsername(username);
+        fileService.deleteAllStoredFilesForUser(inDb);
+        userRepository.delete(inDb);
     }
 }
