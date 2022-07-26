@@ -23,7 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,14 +34,15 @@ import org.springframework.web.bind.annotation.RestController;
  * @author pln226
  */
 @RestController
+@RequestMapping("/api/1.0")
 public class AuthenticationController {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
     @Autowired
-    UserRepository userRepository;
+    AuthService authService;
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
-    @PostMapping("api/1.0/auth")
-    UserVm handleAuthentication(@CurrentUser User user) {
-        return new UserVm(user);
+    @PostMapping("/auth")
+    AuthResponse handleAuthentication(@RequestBody Credentials credentials) {
+        return authService.authenticate(credentials);
     }
 }
