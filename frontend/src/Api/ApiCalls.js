@@ -4,8 +4,8 @@ export const signUp = (body) => {
     return axios.post('/api/1.0/users', body)
 }
 
-export const login = (body) => {
-    return axios.post('/api/1.0/auth', body, { auth: body })
+export const login = (creds) => {
+    return axios.post('/api/1.0/auth', creds)
 }
 
 export const getUsers = (page = 0, size = 3) => {
@@ -43,9 +43,9 @@ export const getNewHoaxCount = (id, username) => {
     return axios.get(path)
 }
 
-export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
+export const setAuthorizationHeader = ({ isLoggedIn, token }) => {
     if (isLoggedIn) {
-        const authorizationHeaderValue = `Basic ${btoa(username + ':' + password)}`//btoa stringi base64 e çevirir
+        const authorizationHeaderValue = `Bearer ${token}`
         axios.defaults.headers['Authorization'] = authorizationHeaderValue
     }
     else {

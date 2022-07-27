@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  *
@@ -43,6 +44,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//Authenticated olduğunda Session üretimini kapatma credentials gelmesini zorla
+        //eklenen filtrenin çalışma sırasını belirleme;
+        http.addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     //Eğer bir user arıyor isek Spring securitye bu servisi kullan diyoruz
@@ -55,5 +59,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    TokenFilter tokenFilter() {
+        return new TokenFilter();
     }
 }

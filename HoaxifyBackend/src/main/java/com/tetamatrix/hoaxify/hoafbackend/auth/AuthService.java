@@ -8,8 +8,12 @@ import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserRepository;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserService;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +49,21 @@ public class AuthService {
         response.setUser(user);
         response.setToken(token);
         return response;
+    }
+
+    public UserDetails getUserDetails(String token) {
+        JwtParser parser;
+        try {
+            parser = Jwts.parser().setSigningKey("my-app-secret");
+            parser.parse(token);//Uygulamamız tarafından üretilmemiş veya expired vermiş ise exception atar.
+            Claims claims = parser.parseClaimsJws(token).getBody();
+            long userId = new Long(claims.getSubject());
+            User user = userRepository.getOne(userId);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
