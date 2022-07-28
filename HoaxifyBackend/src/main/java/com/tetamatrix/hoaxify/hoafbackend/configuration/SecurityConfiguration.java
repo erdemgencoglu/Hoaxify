@@ -25,8 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UserAuthService userAuthService;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -39,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/1.0/users/{username}").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/1.0/hoaxes").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/1.0/hoax-attachments").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/1.0/logout").authenticated()
                 .and()
                 .authorizeRequests()
                 .anyRequest()
@@ -47,13 +47,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //eklenen filtrenin çalışma sırasını belirleme;
         http.addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-    }
-
-    //Eğer bir user arıyor isek Spring securitye bu servisi kullan diyoruz
-    //loadUserByUsername methodu çalıştırılacak demektir
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userAuthService).passwordEncoder(passwordEncoder());
     }
 
     @Bean

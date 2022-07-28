@@ -1,11 +1,19 @@
 import * as ACTIONS from './Constants'
-import { login, signUp } from '../Api/ApiCalls'
+import { login, signUp, logout } from '../Api/ApiCalls'
 ///
 ///
 
 export const logoutSuccess = () => {
-    return {
-        type: ACTIONS.LOGOUT_SUCCESS
+    return async function (dispatch) {
+        try {
+            await logout();
+
+        } catch (error) {
+
+        }
+        dispatch({
+            type: ACTIONS.LOGOUT_SUCCESS
+        })
     }
 }
 

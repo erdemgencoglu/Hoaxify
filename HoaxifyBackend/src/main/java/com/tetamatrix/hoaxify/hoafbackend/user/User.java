@@ -4,6 +4,7 @@
  */
 package com.tetamatrix.hoaxify.hoafbackend.user;
 
+import com.tetamatrix.hoaxify.hoafbackend.auth.Token;
 import com.tetamatrix.hoaxify.hoafbackend.hoax.Hoax;
 import java.util.Collection;
 import java.util.List;
@@ -51,6 +52,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Hoax> hoaxes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

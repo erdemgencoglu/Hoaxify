@@ -5,6 +5,7 @@
 package com.tetamatrix.hoaxify.hoafbackend.auth;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.tetamatrix.hoaxify.hoafbackend.GenericResponse;
 import com.tetamatrix.hoaxify.hoafbackend.error.ApiError;
 import com.tetamatrix.hoaxify.hoafbackend.user.CurrentUser;
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
@@ -44,5 +45,12 @@ public class AuthenticationController {
     @PostMapping("/auth")
     AuthResponse handleAuthentication(@RequestBody Credentials credentials) {
         return authService.authenticate(credentials);
+    }
+
+    @PostMapping("/logout")
+    GenericResponse handleLogout(@RequestHeader(name = "Authorization") String authorization) {
+        String token = authorization.substring(7);
+        authService.clearToken(token);
+        return new GenericResponse("Logout success");
     }
 }

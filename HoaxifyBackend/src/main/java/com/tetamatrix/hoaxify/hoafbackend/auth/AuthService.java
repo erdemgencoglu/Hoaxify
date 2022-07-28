@@ -6,13 +6,10 @@ package com.tetamatrix.hoaxify.hoafbackend.auth;
 
 import com.tetamatrix.hoaxify.hoafbackend.user.User;
 import com.tetamatrix.hoaxify.hoafbackend.user.UserRepository;
-import com.tetamatrix.hoaxify.hoafbackend.user.UserService;
 import com.tetamatrix.hoaxify.hoafbackend.user.vm.UserVm;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+import java.util.UUID;
+import javax.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,9 +25,12 @@ public class AuthService {
 
     PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    TokenRepository tokenRepository;
+
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenRepository = tokenRepository;
     }
 
     public AuthResponse authenticate(Credentials credentials) {
@@ -43,27 +43,33 @@ public class AuthService {
             throw new AuthException();
         }
         UserVm user = new UserVm(inDb);
-        //Token üretme my-app-secret gizli tutulmalı bilinirse her kullanıcı için token üretilebilir.
-        String token = Jwts.builder().setSubject("" + inDb.getId()).signWith(SignatureAlgorithm.HS512, "my-app-secret").compact();
+        String token = generateRandomToken();
+        //generate new token instance
+        Token tokenEntity = new Token();
+        tokenEntity.setToken(token);
+        tokenEntity.setUser(inDb);
+        tokenRepository.save(tokenEntity);
+        //
         AuthResponse response = new AuthResponse();
         response.setUser(user);
         response.setToken(token);
         return response;
     }
 
+    @Transactional
     public UserDetails getUserDetails(String token) {
-        JwtParser parser;
-        try {
-            parser = Jwts.parser().setSigningKey("my-app-secret");
-            parser.parse(token);//Uygulamamız tarafından üretilmemiş veya expired vermiş ise exception atar.
-            Claims claims = parser.parseClaimsJws(token).getBody();
-            long userId = new Long(claims.getSubject());
-            User user = userRepository.getOne(userId);
-            return user;
-        } catch (Exception e) {
-            e.printStackTrace();
+        Optional<Token> optionalToken = tokenRepository.findById(token);
+        if (!optionalToken.isPresent()) {
+            return null;
         }
-        return null;
+        return optionalToken.get().getUser();
     }
 
+    public String generateRandomToken() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    public void clearToken(String token) {
+        tokenRepository.deleteById(token);
+    }
 }

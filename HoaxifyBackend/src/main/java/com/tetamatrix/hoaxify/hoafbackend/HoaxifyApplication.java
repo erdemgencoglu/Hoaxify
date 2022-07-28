@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication()
 public class HoaxifyApplication {
-    
+
     public static void main(String[] args) {
         //Default dili ingilizce yapma
         SpringApplication.run(HoaxifyApplication.class, args);
@@ -25,25 +25,30 @@ public class HoaxifyApplication {
     @Profile("dev")
     CommandLineRunner createInitialUsers(UserService userService, HoaxService hoaxService) {
         return (args) -> {
-            User admin = new User();
-            admin.setUsername("test");
-            admin.setDisplayName("erdem");
-            admin.setPassword("Erdem964069");
-            userService.save(admin);
-            for (int i = 0; i < 25; i++) {
-                User user = new User();
-                user.setUsername("user" + i);
-                user.setDisplayName("display" + i);
-                user.setPassword("P4ssword");
-                userService.save(user);
-                for (int j = 0; j < 20; j++) {
-                    HoaxSubmitVm hoax = new HoaxSubmitVm();
-                    hoax.setContent("hoax (" + j + ") from user (" + i + ")");
-                    hoax.setAttachmentId(0L);
-                    hoaxService.save(hoax, user);
+            try {
+                //user1 varsa datalar oluşturulmuş demek 
+                //gecici bir çözüm tam olarak doğru değil
+                userService.getByUsername("test");
+            } catch (Exception e) {
+                User admin = new User();
+                admin.setUsername("test");
+                admin.setDisplayName("erdem");
+                admin.setPassword("Erdem964069");
+                userService.save(admin);
+                for (int i = 0; i < 25; i++) {
+                    User user = new User();
+                    user.setUsername("user" + i);
+                    user.setDisplayName("display" + i);
+                    user.setPassword("P4ssword");
+                    userService.save(user);
+                    for (int j = 0; j < 20; j++) {
+                        HoaxSubmitVm hoax = new HoaxSubmitVm();
+                        hoax.setContent("hoax (" + j + ") from user (" + i + ")");
+                        hoax.setAttachmentId(0L);
+                        hoaxService.save(hoax, user);
+                    }
                 }
             }
-            
         };
     }
 }

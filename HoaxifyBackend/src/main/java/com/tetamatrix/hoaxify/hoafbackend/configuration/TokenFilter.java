@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author pln226
  */
 public class TokenFilter extends OncePerRequestFilter {
-
+    
     @Autowired
     AuthService authService;
 
@@ -31,18 +31,20 @@ public class TokenFilter extends OncePerRequestFilter {
     //Tüm gelen requestler bu filtreden geçicek
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+        
         String authorization = request.getHeader("Authorization");
         if (authorization != null) {
             //Bearer 'dan sonrası
             String token = authorization.substring(7);
             UserDetails user = authService.getUserDetails(token);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (user != null) {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
-        System.err.println(authorization);
+        //System.err.println(authorization);
         filterChain.doFilter(request, response);
     }
-
+    
 }
